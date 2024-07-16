@@ -13,7 +13,7 @@ function Navbar() {
       <div
         className={`fixed h-screen bg-red-500 right-0 top-0 w-[45%] p-4 flex flex-col ${
           openNav ? "translate-x-[500px]" : "translate-x-0"
-        } transition ease-in-out duration-15`}
+        } transition ease-in-out duration-150`}
       >
         <div className="self-end">
           <MdClose
