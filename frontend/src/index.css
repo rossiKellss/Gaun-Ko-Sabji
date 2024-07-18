@@ -9,20 +9,14 @@
   body {
     min-height: 100vh;
   }
-  .navLinkTypoSm {
-    @apply text-[#49557e] text-base;
-  }
-  .navLinkTypoMd {
-    @apply text-[#49557e] text-lg;
-  }
-  .navLinkTypoLg {
-    @apply text-[#49557e] text-xl;
+  .navLinkTypo {
+    @apply text-[#49557e] text-base md:text-lg lg:text-xl;
   }
 
-  .buttons {
+  .c2aIcons {
     @apply text-2xl text-[#49557e] font-bold;
   }
   .button {
-    @apply text-lg border rounded-2xl text-[#49557e] px-3 py-1;
+    @apply text-base border rounded-2xl text-[#49557e] px-3 py-1 md:text-lg lg:text-xl lg:px-4 lg:py-2;
   }
 }
