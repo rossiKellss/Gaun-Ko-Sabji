@@ -17,6 +17,13 @@
     @apply text-2xl text-[#49557e] font-bold;
   }
   .button {
-    @apply text-base border rounded-2xl text-[#49557e] px-3 py-1 md:text-lg lg:text-xl lg:px-4 lg:py-2;
+    @apply text-base border rounded-2xl text-[#49557e] px-4 py-1 md:text-lg lg:text-xl lg:px-4 lg:py-2;
+  }
+  .contentMargin {
+    @apply mt-6 md:mt-8 lg:mt-10;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
   }
 }

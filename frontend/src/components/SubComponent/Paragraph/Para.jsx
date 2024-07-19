@@ -1,11 +1,8 @@
 import React from "react";
 
-function Para() {
+function Para({ content }) {
   return (
-    <p className="text-sm md:text-base lg:text-lg">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet odit
-      accusantium excepturi, debitis itaque ea.
-    </p>
+    <p className="text-sm md:text-base text-gray-900 lg:text-lg">{content}</p>
   );
 }
 
