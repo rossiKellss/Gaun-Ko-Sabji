@@ -12,6 +12,7 @@ function App() {
         <Explore />
         <Cards/>
         
+        
       
       </div>
     </>

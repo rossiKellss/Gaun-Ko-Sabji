@@ -28,7 +28,7 @@ function Explore() {
           </span>
         </div>
       </div>
-      <hr className="w-full mt-3 h-[4px] bg-gray-400 rounded-md" />
+      <hr className="w-full mt-3 h-[2px] bg-gray-400 rounded-md" />
       
     </div>
   );
