@@ -79,8 +79,8 @@ export default function App() {
             
         </SwiperSlide>
         
-        <div ref={navigationPrevRef} className="custom-button-prev"><FaAngleLeft /></div>
-        <div ref={navigationNextRef} className="custom-button-next"><FaAngleRight /></div>
+        <div ref={navigationPrevRef} className="custom-button-prev text-gray-400 "><FaAngleLeft /></div>
+        <div ref={navigationNextRef} className="custom-button-next text-gray-400"><FaAngleRight /></div>
       
       </Swiper>
       

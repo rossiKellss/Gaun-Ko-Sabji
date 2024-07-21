@@ -13,7 +13,7 @@ import '../swiperDesign.css'
 
 function CardsContainer() {
   return (<div className="contentMargin">
-    <Heading content={"Products"}/>
+    <Heading content={"Vegetables"}/>
     <div className="md:mt-3">
     <SubHeading content={"All"}/>
     <Swiper
@@ -41,7 +41,7 @@ function CardsContainer() {
       <Cards/>
       <Cards/>
       <Cards/>
-      <Cards/>
+      
     </div>
       </SwiperSlide>
 
@@ -53,7 +53,7 @@ function CardsContainer() {
       <Cards/>
       <Cards/>
       <Cards/>
-      <Cards/>
+      
     </div>
       </SwiperSlide>
       <SwiperSlide>
@@ -64,11 +64,11 @@ function CardsContainer() {
       <Cards/>
       <Cards/>
       <Cards/>
-      <Cards/>
+      
     </div>
       </SwiperSlide>
      
-      <div className="swiper-pagination h-1 mt-8"></div>
+      <div className="swiper-pagination h-1 "></div>
     </Swiper>
    
 
