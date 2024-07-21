@@ -2,7 +2,7 @@ import React from 'react'
 import { FaRegStar } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import SubHeading from "../components/SubComponent/HeadingTitle/SubHeading";
+import SubHeading from "./SubComponent/HeadingTitle/SubHeading";
 
 
 function Cards() {

@@ -22,6 +22,8 @@
   .contentMargin {
     @apply mt-2 md:mt-8 lg:mt-10;
   }
+ 
+ 
 
   .menu::-webkit-scrollbar {
     display: none;
