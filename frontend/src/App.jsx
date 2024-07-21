@@ -1,7 +1,8 @@
 import Navbar from "./components/Navbar";
 import Explore from "./sections/Explore";
 import Hero from "./sections/Hero";
-import Cards from "./sections/Cards"
+// import Cards from "./sections/Cards"
+import CardsContainer from "./sections/CardsContainer";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
         <Navbar />
         <Hero />
         <Explore />
-        <Cards/>
+        <CardsContainer/>
         
         
       
