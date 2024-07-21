@@ -67,8 +67,8 @@ function CardsContainer() {
       <Cards/>
     </div>
       </SwiperSlide>
-      <div className="swiper-pagination h-1 mt-8"></div>
      
+      <div className="swiper-pagination h-1 mt-8"></div>
     </Swiper>
    
 

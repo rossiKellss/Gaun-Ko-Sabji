@@ -20,7 +20,7 @@
     @apply text-base border rounded-2xl text-[#49557e] px-4 py-1 md:text-lg lg:text-xl lg:px-4 lg:py-2;
   }
   .contentMargin {
-    @apply mt-2 md:mt-8 lg:mt-10;
+    @apply mt-10 lg:mt-16 ;
   }
  
  

@@ -1,0 +1,25 @@
+.custom-button-prev{
+    position: absolute;
+    top: 40%;
+   z-index: 999;
+   left: 2px;
+   cursor: pointer;
+   font-size: 2rem;
+   padding: .5rem;
+   border-radius: 100%;
+   background: rgb(209, 209, 209);
+}
+
+.custom-button-next{
+    position: absolute;
+    top: 40%;
+    z-index: 999;
+    right: 2px;
+   
+    cursor: pointer;
+    font-size: 2rem;
+    padding: .5rem;
+    border-radius: 100%;
+   background: rgb(209, 209, 209);
+    
+}

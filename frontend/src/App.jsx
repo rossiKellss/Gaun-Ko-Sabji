@@ -3,6 +3,7 @@ import Explore from "./sections/Explore";
 import Hero from "./sections/Hero";
 // import Cards from "./sections/Cards"
 import CardsContainer from "./sections/CardsContainer";
+import DailyEssentials from "./sections/DailyEssentials";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Hero />
         <Explore />
         <CardsContainer/>
+        <DailyEssentials/>
         
         
       
