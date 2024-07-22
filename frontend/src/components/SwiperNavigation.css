@@ -1,25 +1,21 @@
-.custom-button-prev{
-    position: absolute;
-    top: 40%;
-   z-index: 999;
-   left: -10px;
-   cursor: pointer;
-   font-size: 2.5rem;
-   padding: .5rem;
-   border-radius: 100%;
-   
+.custom-button-prev {
+  position: absolute;
+  top: 40%;
+  z-index: 999;
+  left: -10px;
+  cursor: pointer;
+  font-size: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 100%;
 }
 
-.custom-button-next{
-    position: absolute;
-    top: 40%;
-    z-index: 999;
-    right: -10px;
-   
-    cursor: pointer;
-    font-size: 2.5rem;
-    padding: .5rem;
-    border-radius: 100%;
-   
-    
+.custom-button-next {
+  position: absolute;
+  top: 40%;
+  z-index: 999;
+  right: -10px;
+  cursor: pointer;
+  font-size: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 100%;
 }

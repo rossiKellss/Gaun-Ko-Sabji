@@ -4,6 +4,7 @@ import Hero from "./sections/Hero";
 // import Cards from "./sections/Cards"
 import CardsContainer from "./sections/CardsContainer";
 import DailyEssentials from "./sections/DailyEssentials";
+import Footer from "./sections/Footer";
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
         <CardsContainer/>
         
         
+        
       
       </div>
+      <Footer/>
     </>
   );
 }

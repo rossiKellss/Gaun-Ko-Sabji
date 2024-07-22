@@ -2,7 +2,7 @@ import React from "react";
 
 function Para({ content }) {
   return (
-    <p className="text-sm md:text-base text-gray-900 lg:text-lg">{content}</p>
+    <p className="text-sm md:text-base  lg:text-lg">{content}</p>
   );
 }
 
