@@ -4,12 +4,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
 import Button from "./SubComponent/Button/Button";
+import { FiSearch } from "react-icons/fi";
 
 function Navbar() {
   const [openNav, setOpenNav] = useState(false);
 
   return (
-    <div className="relative navBar w-full py-4">
+    <div className="relative navBar  w-full py-4">
       {/* for mobile devices */}
       <div
         className={`fixed h-screen bg-red-500 right-0 top-0 w-[45%] p-4 flex flex-col ${
@@ -31,17 +32,29 @@ function Navbar() {
         <div className="logo">
           <h1>LOGO</h1>
         </div>
-        <div className="menu hidden md:flex navLinkTypo">
-          <ul className="flex  gap-5">
+        <div className="menu hidden md:flex navLinkTypo w-full">
+          <div className=" w-full flex items-center justify-center gap-0 ">
+            
+          <input type="text"  placeholder="Search" className="outline-none bg-[#303030] rounded-l-full  w-1/2 px-5 py-2 text-white" />
+          <span className="bg-black h-full w-12 text-3xl rounded-r-full flex items-center justify-center text-white "><FiSearch  className="cursor-pointer"/></span>
+          </div>
+         
+         
+
+          
+         
+
+
+          {/* <ul className="flex  gap-5">
             <li>Home</li>
             <li>Products</li>
             <li>lorem</li>
             <li>lorem</li>
-          </ul>
+          </ul> */}
         </div>
         <div className="right flex gap-5 items-center">
-          <div className="flex gap-1 c2aIcons">
-            <CiSearch />
+          <div className="flex gap-1 c2aIcons text-3xl">
+            {/* <CiSearch /> */}
             <CiShoppingCart />
           </div>
           <RxHamburgerMenu
