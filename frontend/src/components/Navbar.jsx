@@ -10,7 +10,7 @@ function Navbar() {
   const [openNav, setOpenNav] = useState(false);
 
   return (
-    <div className="relative navBar  w-full py-4">
+    <div className="relative w-[80%] navBar m-auto py-4">
       {/* for mobile devices */}
       <div
         className={`fixed h-screen bg-red-500 right-0 top-0 w-[45%] p-4 flex flex-col ${

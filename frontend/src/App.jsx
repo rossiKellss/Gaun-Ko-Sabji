@@ -1,27 +1,18 @@
 import Navbar from "./components/Navbar";
-import Explore from "./sections/Explore";
-import Hero from "./sections/Hero";
-// import Cards from "./sections/Cards"
-import CardsContainer from "./sections/CardsContainer";
-import DailyEssentials from "./sections/DailyEssentials";
+// import Home from "./pages/Home";
 import Footer from "./sections/Footer";
+import { Outlet } from "react-router-dom";
+
+
+
 
 function App() {
   return (
     <>
-      <div className="app w-[80%]  m-auto">
-        <Navbar />
-        <Hero />
-        <Explore />
-        <CardsContainer/>
-        <DailyEssentials/>
-        <CardsContainer/>
-        
-        
-        
       
-      </div>
-      <Footer/>
+        <Navbar />
+         <Outlet/>
+        <Footer/>
     </>
   );
 }
