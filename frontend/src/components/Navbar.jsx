@@ -1,4 +1,3 @@
-import { CiSearch } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
@@ -8,6 +7,11 @@ import { FiSearch } from "react-icons/fi";
 
 function Navbar() {
   const [openNav, setOpenNav] = useState(false);
+  const [search,setSearch]=useState();
+  const searchItem=()=>{
+    
+
+  }
 
   return (
     <div className="relative w-[80%] navBar m-auto py-4">
@@ -35,7 +39,8 @@ function Navbar() {
         <div className="menu hidden md:flex navLinkTypo w-full">
           <div className=" w-full flex items-center justify-center gap-0 ">
             
-          <input type="text"  placeholder="Search" className="outline-none bg-[#303030] rounded-l-full  w-1/2 px-5 py-2 text-white" />
+          <input type="text"  placeholder="Search" className="outline-none bg-[#303030] rounded-l-full  w-1/2 px-5 py-2 text-white" name="Search" onChange={(e)=>{setSearch(e.target.value)}}/>
+
           <span className="bg-black h-full w-12 text-3xl rounded-r-full flex items-center justify-center text-white "><FiSearch  className="cursor-pointer"/></span>
           </div>
          
@@ -55,7 +60,7 @@ function Navbar() {
         <div className="right flex gap-5 items-center">
           <div className="flex gap-1 c2aIcons text-3xl">
             {/* <CiSearch /> */}
-            <CiShoppingCart />
+            <CiShoppingCart onClick={searchItem}/>
           </div>
           <RxHamburgerMenu
             className="text-lg md:hidden "
