@@ -10,17 +10,20 @@
     min-height: 100vh;
   }
   .navLinkTypo {
-    @apply text-[#49557e] text-base md:text-lg lg:text-xl;
+    @apply text-white text-base md:text-lg lg:text-xl;
   }
 
   .c2aIcons {
-    @apply text-2xl text-[#49557e] font-bold;
+    @apply text-3xl md:text-4xl text-white font-bold  transition ease-linear cursor-pointer hover:scale-110 hover:text-green-500;
   }
   .button {
-    @apply text-base border rounded-2xl text-[#49557e] px-4 py-1 md:text-lg lg:text-xl lg:px-4 lg:py-2;
+    @apply text-base rounded-full transition ease-linear text-white border border-white px-4 py-1 md:text-lg  lg:px-4 lg:py-1 hover:text-green-500 hover:border-green-500 hover:scale-105 ;
   }
   .contentMargin {
     @apply mt-10 lg:mt-16 ;
+  }
+  .bg-background{
+    @apply bg-[#303030];
   }
  
  
