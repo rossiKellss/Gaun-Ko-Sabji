@@ -5,31 +5,43 @@ import Footer from "../sections/Footer";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
 import { useState } from "react";
+import Heading from '../components/SubComponent/HeadingTitle/Heading'
 
 
 function SignUp() {
     const [showPassword,setShowPassword]=useState(false);
+    const [userCred, setUserCred] = useState({});
     
+  
+    const getUserCred = (e) => {
+      const name=e.target.name;
+      const value=e.target.value;
+      setUserCred({
+          ...userCred,
+          [name]:value
+          
+      })
+    };
   return (
       <div>
         <Navbar/>
         <div className="w-[80%]  firstContentMargin  ">
-            <h1 className="text-xl font-semibold text-gray-600 mb-4 lg:text-3xl">Signup</h1>
-            <div className="flex flex-col md:flex-row">
-            <div className="flex-1 hidden md:block">
-                <img src="" alt="" />
+            <Heading content={"Sign Up"}/>
+            <div className="flex flex-col md:flex-row  md:h-52 lg:h-96  md:gap-2 w-full items-center">
+            <div className=" hidden md:block md:w-[50%] h-full ">
+                <img src="https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7893.jpg?t=st=1721897712~exp=1721901312~hmac=4bcb2d264a3f76567b14627d327ae167b1c66bd8276bd294ae33d4d90f6e1e51&w=740" alt="" className="h-full w-3/4" />
 
             </div>
-            <div className="right flex-1">
-                <form action="" className="w-full lg:text-lg  ">
-                    <div className="w-full border-b mb-6 lg:mb-10">
-                        <input type="number" inputMode="numeric" pattern="[0-9]*" className="w-full outline-none tracking-wide " placeholder="Phone number"/>
+            <div className="right md:w-[50%]">
+                <form action="" className="w-full lg:text-lg">
+                    <div className="w-full border-b-2 mb-6 lg:mb-10">
+                        <input type="number" inputMode="numeric" pattern="[0-9]*" className="w-full outline-none tracking-wide " placeholder="Phone number"name="phoneNumber" onChange={(e)=>{getUserCred(e)}}/>
 
                     </div>
-                    <div className="w-full border-b flex items-center mb-4 lg:mb-6">
+                    <div className="w-full border-b-2 flex items-center mb-4 lg:mb-6">
                         
 
-                        <input type={`${showPassword?"text":"password"}`} className="w-full outline-none tracking-wide " placeholder="Enter your password"/>
+                        <input type={`${showPassword?"text":"password"}`} className="w-full outline-none tracking-wide " placeholder="Enter your password" name="password" onChange={(e)=>{getUserCred(e)}}/>
                         
                         {!showPassword&& <PiEyeClosedBold className="text-gray-500 text-lg" onClick={()=>{setShowPassword(!showPassword)}}/>}
 
