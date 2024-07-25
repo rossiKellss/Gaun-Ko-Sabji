@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import Button from "./SubComponent/Button/Button";
 import { FiSearch } from "react-icons/fi";
 import Search from "../pages/Search";
+import SignUp from "../pages/SignUp";
 
 function Navbar() {
   const [openNav, setOpenNav] = useState(false);
@@ -18,6 +19,10 @@ function Navbar() {
       setSearch("");
     }
   };
+  const SignUpTrigger=()=>{
+    console.log("signup triggered");
+    navigate("/signup");
+  }
 
   return (
     <div className="fixed top-0 py-6 w-full bg-background z-[99]">
@@ -79,7 +84,10 @@ function Navbar() {
             }}
           />
           <span className="hidden md:block">
+            <Link to={"/signup"}>
+
             <Button content={"Signup"}/>
+            </Link>
           </span>
         </div>
       </div>

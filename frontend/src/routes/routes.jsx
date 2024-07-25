@@ -4,6 +4,8 @@ import App from "../App";
 import ProductDetails from "../pages/ProductDetails";
 import Search from "../pages/Search";
 import Aboutus from "../pages/Aboutus";
+import SignUp from "../pages/SignUp";
+import Login from "../pages/Login";
 const router=createBrowserRouter([
     {
         path:"/",
@@ -33,6 +35,14 @@ const router=createBrowserRouter([
         element:<Search/>,
         
     },
+    {
+        path:"/signup",
+        element:<SignUp/>
+    },
+    {
+        path:"/login",
+        element:<Login/>
+    }
 
 
 ])
