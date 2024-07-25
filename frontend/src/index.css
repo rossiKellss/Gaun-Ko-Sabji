@@ -17,19 +17,29 @@
     @apply text-3xl md:text-4xl text-white font-bold  transition ease-linear cursor-pointer hover:scale-110 hover:text-green-500;
   }
   .button {
-    @apply text-base rounded-full transition ease-linear text-green-600 border border-green-600 px-3 py-1 md:text-lg  lg:px-4 lg:py-1 hover:text-green-500 hover:border-green-500 hover:scale-105 ;
+    @apply text-base rounded-full transition ease-linear text-green-600 border border-green-600 px-3 py-1 md:text-lg  lg:px-4 lg:py-1 hover:text-green-500 hover:border-green-500 hover:scale-105;
   }
   .contentMargin {
-    @apply mt-10 lg:mt-16 ;
+    @apply mt-10 lg:mt-16;
   }
-  .bg-background{
+  .bg-background {
     @apply bg-[#303030];
   }
-  .firstContentMargin{
-    @apply mt-28 mx-auto md:mt-32 lg:mt-36
+  .firstContentMargin {
+    @apply mt-28 mx-auto md:mt-32 lg:mt-36;
   }
- 
- 
+
+  /* Remove arrows from input[type="number"] for all browsers */
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
   .menu::-webkit-scrollbar {
     display: none;
