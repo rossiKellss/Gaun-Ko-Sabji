@@ -46,8 +46,8 @@ function Navbar() {
       </div>
 
       {/* for large screen devices */}
-      <div className="flex justify-between items-center">
-        <div className="logo text-white">
+      <div className="flex justify-between items-center ">
+        <div className="logo text-black">
           <h1>LOGO</h1>
         </div>
         <div className="menu hidden md:flex navLinkTypo w-full ">
@@ -56,7 +56,7 @@ function Navbar() {
             <input
               type="text"
               placeholder="Search"
-              className=" bg-gray-100  rounded-l-full  w-[65%] px-5 py-2 text-black h-full "
+              className=" bg-gray-300 border border-gray-400  rounded-l-full  w-[55%] px-5 py-1 text-black h-full "
               name="Search"
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -64,7 +64,7 @@ function Navbar() {
             />
 
             <span
-              className="bg-green-600 h-full w-12 text-3xl rounded-r-full flex items-center justify-center text-white hover:bg-green-700 transition ease-linear "
+              className="bg-green-600 h-full w-10 text-xl rounded-r-full flex items-center justify-center text-white hover:bg-green-700 transition ease-linear "
               onClick={sendLink}
             >
               <FiSearch className="cursor-pointer" />

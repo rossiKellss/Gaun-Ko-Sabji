@@ -6,10 +6,13 @@ import Search from "../pages/Search";
 import Aboutus from "../pages/Aboutus";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
+import Admin from "../pages/Admin/Admin";
+import store from "../store";
+import { Provider } from "react-redux";
 const router=createBrowserRouter([
     {
         path:"/",
-        element:<App/>,
+        element:<Provider store={store}><App/></Provider>,
         children:[{
 
             path:"",
@@ -42,6 +45,10 @@ const router=createBrowserRouter([
     {
         path:"/login",
         element:<Login/>
+    },
+    {
+        path:"/admin",
+        element:<Admin/>
     }
 
 
