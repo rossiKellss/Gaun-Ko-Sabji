@@ -46,9 +46,36 @@ const productControllers = {
     
 
    
-    res.json({data:"get"});
+    
   },
-  updateProductList: async (req, res) => {},
+  updateProductList: async (req, res) => {
+    const {id}=req.params;
+    const {data}=req.body;
+    const {ProductName,Category,Price,Description,Quantity}=data;
+    
+    try{
+      await Products.findByIdAndUpdate(id,{
+        ProductName,
+        Description,
+        Price,
+        Quantity,
+        Category,
+      });
+      return res.status(200).json({
+        message:"Product updated successfully"
+      })
+
+    }catch(err){
+      return res.status(500).json({
+        message:"Internal server error occured"
+      })
+
+
+    }
+    
+
+
+  },
   deleteProductList: async (req, res) => {
     const {id}=req.params
     try{
