@@ -29,10 +29,47 @@ const productControllers = {
     }
   },
   getProductList: async (req, res) => {
-    res.send("get");
+    try{
+
+      const products=await Products.find({});
+      
+      return(res.json({products}));
+    }catch(err){
+      return(
+        res.status(500).json({
+          message:"Internal Server Error"
+        })
+      )
+    }
+    
+
+    
+
+   
+    res.json({data:"get"});
   },
   updateProductList: async (req, res) => {},
-  deleteProductList: async (req, res) => {},
+  deleteProductList: async (req, res) => {
+    const {id}=req.params
+    try{
+      const deleteItem=await Products.findByIdAndDelete(id);
+      if(!deleteItem){
+        return(res.status(400).json({
+          message:"Item not found"
+        }))
+      }
+      res.status(200).json({
+        message:"Item deleted sucessfully"
+      })
+
+    }catch(err){
+      return(res.status(500).json({
+        message:"Server error occured"
+      }))
+
+
+    }
+  },
 };
 
 module.exports = productControllers;

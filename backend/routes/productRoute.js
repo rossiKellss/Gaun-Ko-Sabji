@@ -12,7 +12,7 @@ productRouter.route('/products').post(productControllers.createProductList);
 
 productRouter.route('/products').patch(productControllers.updateProductList);
 
-productRouter.route('/products').delete(productControllers.deleteProductList);
+productRouter.route('/products/:id').delete(productControllers.deleteProductList);
 
 
 
