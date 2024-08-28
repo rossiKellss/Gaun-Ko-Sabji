@@ -1,26 +1,18 @@
 const express=require("express");
+const productControllers = require("../controllers/productController");
+const upload=require('../uploadImg');
+
+
 
 const productRouter=express.Router();
 
-productRouter.route('/api/products').get((req,res)=>{
-    res.send("products")
+productRouter.route('/products').get(productControllers.getProductList);
 
-});
+productRouter.route('/products').post(productControllers.createProductList);
 
-productRouter.route('/api/products').post((req,res)=>{
-    res.send("products")
+productRouter.route('/products').patch(productControllers.updateProductList);
 
-});
-
-productRouter.route('/api/products').patch((req,res)=>{
-    res.send("products")
-
-});
-
-productRouter.route('/api/products').delete((req,res)=>{
-    res.send("products")
-
-});
+productRouter.route('/products').delete(productControllers.deleteProductList);
 
 
 
