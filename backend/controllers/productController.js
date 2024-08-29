@@ -18,83 +18,80 @@ const productControllers = {
         Description,
       });
 
-      res.json({ data: result,message:"Item Added Successfully"});
+      res.json({ data: result, message: "Item Added Successfully" });
     } catch (err) {
-
       return res.status(400).json({
         err: err.message,
         status: 400,
-        message:"Items cannot be added"
+        message: "Items cannot be added",
       });
     }
   },
   getProductList: async (req, res) => {
-    try{
+    try {
+      const products = await Products.find({});
 
-      const products=await Products.find({});
-      
-      return(res.json({products}));
-    }catch(err){
-      return(
-        res.status(500).json({
-          message:"Internal Server Error"
-        })
-      )
+      return res.json({ products });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
     }
-    
-
-    
-
-   
-    
   },
   updateProductList: async (req, res) => {
-    const {id}=req.params;
-    const {data}=req.body;
-    const {ProductName,Category,Price,Description,Quantity}=data;
-    
-    try{
-      await Products.findByIdAndUpdate(id,{
+    const { id } = req.params;
+   
+    const { ProductName, Category, Price, Description, Quantity } = req.body;
+
+    try {
+      await Products.findByIdAndUpdate(id, {
         ProductName,
         Description,
         Price,
         Quantity,
         Category,
       });
+      
       return res.status(200).json({
-        message:"Product updated successfully"
-      })
-
-    }catch(err){
+        message: "Product updated successfully",
+      });
+    } catch (err) {
       return res.status(500).json({
-        message:"Internal server error occured"
-      })
-
-
+        message: "Internal server error occured",
+      });
     }
+  },
+  getProductById:async(req,res)=>{
+    const {id}=req.params;
     
-
+    try{
+      const findItem=await Products.findById(id);
+      return res.status(200).json({
+        findItem
+      })
+    }catch(err){
+      return(res.status(500).json({
+        message:"Internal Server Error"
+      }))
+    }
 
   },
   deleteProductList: async (req, res) => {
-    const {id}=req.params
-    try{
-      const deleteItem=await Products.findByIdAndDelete(id);
-      if(!deleteItem){
-        return(res.status(400).json({
-          message:"Item not found"
-        }))
+    const { id } = req.params;
+    try {
+      const deleteItem = await Products.findByIdAndDelete(id);
+      if (!deleteItem) {
+        return res.status(400).json({
+          message: "Item not found",
+        });
       }
       res.status(200).json({
-        message:"Item deleted sucessfully"
-      })
-
-    }catch(err){
-      return(res.status(500).json({
-        message:"Server error occured"
-      }))
-
-
+        message: "Item deleted sucessfully",
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Server error occured",
+      });
     }
   },
 };

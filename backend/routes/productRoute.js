@@ -8,6 +8,8 @@ const productRouter=express.Router();
 
 productRouter.route('/products').get(productControllers.getProductList);
 
+productRouter.route('/products/:id').get(productControllers.getProductById);
+
 productRouter.route('/products').post(productControllers.createProductList);
 
 productRouter.route('/products/:id').put(productControllers.updateProductList);
