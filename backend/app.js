@@ -22,6 +22,7 @@ connectToDb(process.env.MONGO_URI);
 
 // setting up middle wares
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV == "development") {

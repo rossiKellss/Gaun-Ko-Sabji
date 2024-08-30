@@ -1,6 +1,8 @@
 const Products = require("../models/ProductModel");
 const productControllers = {
   createProductList: async (req, res) => {
+    
+    
     const { ProductName, Category, Description, Price, Quantity } = req.body;
     const productExists = await Products.findOne({ ProductName });
 
@@ -40,7 +42,7 @@ const productControllers = {
   },
   updateProductList: async (req, res) => {
     const { id } = req.params;
-   
+
     const { ProductName, Category, Price, Description, Quantity } = req.body;
 
     try {
@@ -51,7 +53,7 @@ const productControllers = {
         Quantity,
         Category,
       });
-      
+
       return res.status(200).json({
         message: "Product updated successfully",
       });
@@ -61,20 +63,19 @@ const productControllers = {
       });
     }
   },
-  getProductById:async(req,res)=>{
-    const {id}=req.params;
-    
-    try{
-      const findItem=await Products.findById(id);
-      return res.status(200).json({
-        findItem
-      })
-    }catch(err){
-      return(res.status(500).json({
-        message:"Internal Server Error"
-      }))
-    }
+  getProductById: async (req, res) => {
+    const { id } = req.params;
 
+    try {
+      const findItem = await Products.findById(id);
+      return res.status(200).json({
+        findItem,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
   },
   deleteProductList: async (req, res) => {
     const { id } = req.params;
