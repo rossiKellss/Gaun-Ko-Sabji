@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors=require('cors');
+const bodyParser=require('body-parser')
 
 const productRouter = require("./routes/productRoute");
 const connectToDb = require("./connection/connection");
@@ -24,6 +25,8 @@ connectToDb(process.env.MONGO_URI);
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}))
 
 if (process.env.NODE_ENV == "development") {
   app.use(morgan("dev"));

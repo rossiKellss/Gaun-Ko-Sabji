@@ -3,6 +3,7 @@ const productControllers = {
   createProductList: async (req, res) => {
     
     
+    const {filename}=req.file;
     const { ProductName, Category, Description, Price, Quantity } = req.body;
     const productExists = await Products.findOne({ ProductName });
 
@@ -18,6 +19,7 @@ const productControllers = {
         Price,
         Quantity,
         Description,
+        imageUrl:`http://localhost:4000/public/images/${filename}`
       });
 
       res.json({ data: result, message: "Item Added Successfully" });
