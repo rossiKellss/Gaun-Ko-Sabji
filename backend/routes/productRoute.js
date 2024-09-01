@@ -8,7 +8,6 @@ productRouter.route("/products").get(productControllers.getProductList);
 
 productRouter.route("/products/:id").get(productControllers.getProductById);
 
-// productRouter.route('/products').post(productControllers.createProductList);
 productRouter.post(
   "/products",
   upload.single("Picture"),
@@ -21,15 +20,10 @@ productRouter
   .route("/products/:id")
   .delete(productControllers.deleteProductList);
 
-// productRouter.route('/uploadCheck',upload.single('files')).post((req,res)=>{
+productRouter
+  .route("/image/download/:id")
+  .get(productControllers.downloadProductList);
 
-//     console.log(req.body);
-//     res.send("hello")
-// })
-
-productRouter.post("/uploadCheck", upload.single("files"), (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
-});
+productRouter.route('/products/search/:id').get(productControllers.searchProducts)
 
 module.exports = productRouter;

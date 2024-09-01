@@ -1,4 +1,6 @@
 const Products = require("../models/ProductModel");
+const path=require('path');
+const fs=require('fs');
 const productControllers = {
   createProductList: async (req, res) => {
     
@@ -19,7 +21,7 @@ const productControllers = {
         Price,
         Quantity,
         Description,
-        imageUrl:`http://localhost:4000/public/images/${filename}`
+        fileName:filename
       });
 
       res.json({ data: result, message: "Item Added Successfully" });
@@ -97,6 +99,54 @@ const productControllers = {
       });
     }
   },
+  downloadProductList:async(req,res)=>{
+    const filename=req.params.id;
+    console.log("the filename is",filename);
+    
+    const imagePath=path.join(__dirname,`../images/${filename}`);
+    console.log("the image path is",imagePath);
+    
+    try{
+      if(fs.existsSync(imagePath)){
+        return (res.status(200).sendFile(imagePath));
+      }
+      else{
+        return( res.status(404).json({
+          message:"Img not found"
+        }))
+       
+      }
+      
+    }
+    catch(err){
+      return(res.status(500).json({
+        "message":"Internal Server Error"
+      }))
+
+    }
+
+  },
+  searchProducts:async(req,res)=>{
+    const name=req.params.id;
+    try{
+      const searchedProducts=await Products.find({"ProductName":name});
+      if(searchedProducts.length==0){
+        return (res.status(404).json({
+          message:"No items found"
+        }))
+      }
+      res.status(200).json({
+        searchedProducts
+      })
+
+    }catch(err){
+      return (res.status(500).json({
+        message:"Server Error"
+      }))
+
+    }
+    
+  }
 };
 
 module.exports = productControllers;
