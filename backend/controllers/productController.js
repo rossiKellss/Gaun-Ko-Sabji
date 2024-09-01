@@ -128,6 +128,7 @@ const productControllers = {
   },
   searchProducts:async(req,res)=>{
     const name=req.params.id;
+    console.log(name);
     try{
       const searchedProducts=await Products.find({"ProductName":name});
       if(searchedProducts.length==0){
@@ -136,7 +137,7 @@ const productControllers = {
         }))
       }
       res.status(200).json({
-        searchedProducts
+       products: searchedProducts
       })
 
     }catch(err){
@@ -146,6 +147,21 @@ const productControllers = {
 
     }
     
+  },
+  filterProducts:async(req,res)=>{
+    const id=req.params.id;
+    if(id=="FBD"){
+      const result=await Products.find().sort({dateAdded:-1})
+      return (res.status(200).json({
+        product:result
+      }))
+    }
+    else if(id="FBN"){
+      const result=await Products.find().sort({ProductName:1})
+      return(res.status(200).json({
+        product:result
+      }))
+    }
   }
 };
 
