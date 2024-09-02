@@ -26,6 +26,6 @@ productRouter
 
 productRouter.route('/products/search/:id').get(productControllers.searchProducts)
 
-productRouter.route('/products/filter/:id').get(productControllers.filterProducts)
+productRouter.route('/products/f').get(productControllers.filterProducts)
 
 module.exports = productRouter;

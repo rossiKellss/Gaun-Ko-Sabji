@@ -1,11 +1,9 @@
 const Products = require("../models/ProductModel");
-const path=require('path');
-const fs=require('fs');
+const path = require("path");
+const fs = require("fs");
 const productControllers = {
   createProductList: async (req, res) => {
-    
-    
-    const {filename}=req.file;
+    const { filename } = req.file;
     const { ProductName, Category, Description, Price, Quantity } = req.body;
     const productExists = await Products.findOne({ ProductName });
 
@@ -21,7 +19,7 @@ const productControllers = {
         Price,
         Quantity,
         Description,
-        fileName:filename
+        fileName: filename,
       });
 
       res.json({ data: result, message: "Item Added Successfully" });
@@ -34,10 +32,26 @@ const productControllers = {
     }
   },
   getProductList: async (req, res) => {
-    try {
-      const products = await Products.find({});
+    const { filter } = req.query;
+    console.log(filter)
 
-      return res.json({ products });
+    try {
+      if (filter == "FBD") {
+        const result = await Products.find().sort({ dateAdded: 1 });
+        return res.status(200).json({
+          products: result,
+        });
+      } else if (filter == "FBN") {
+        const result = await Products.find().sort({ ProductName: 1 });
+        console.log(result);
+        return res.status(200).json({
+          products: result,
+        });
+      } else {
+        const products = await Products.find({});
+
+        return res.json({ products });
+      }
     } catch (err) {
       return res.status(500).json({
         message: "Internal Server Error",
@@ -73,7 +87,7 @@ const productControllers = {
     try {
       const findItem = await Products.findById(id);
       return res.status(200).json({
-        findItem,
+        products: findItem,
       });
     } catch (err) {
       return res.status(500).json({
@@ -99,70 +113,67 @@ const productControllers = {
       });
     }
   },
-  downloadProductList:async(req,res)=>{
-    const filename=req.params.id;
-    console.log("the filename is",filename);
-    
-    const imagePath=path.join(__dirname,`../images/${filename}`);
-    console.log("the image path is",imagePath);
-    
-    try{
-      if(fs.existsSync(imagePath)){
-        return (res.status(200).sendFile(imagePath));
-      }
-      else{
-        return( res.status(404).json({
-          message:"Img not found"
-        }))
-       
-      }
-      
-    }
-    catch(err){
-      return(res.status(500).json({
-        "message":"Internal Server Error"
-      }))
+  downloadProductList: async (req, res) => {
+    const filename = req.params.id;
+    console.log("the filename is", filename);
 
-    }
+    const imagePath = path.join(__dirname, `../images/${filename}`);
+    console.log("the image path is", imagePath);
 
+    try {
+      if (fs.existsSync(imagePath)) {
+        return res.status(200).sendFile(imagePath);
+      } else {
+        return res.status(404).json({
+          message: "Img not found",
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
   },
-  searchProducts:async(req,res)=>{
-    const name=req.params.id;
+  searchProducts: async (req, res) => {
+    const name = req.params.id;
     console.log(name);
-    try{
-      const searchedProducts=await Products.find({"ProductName":name});
-      if(searchedProducts.length==0){
-        return (res.status(404).json({
-          message:"No items found"
-        }))
+    try {
+      const searchedProducts = await Products.find({ ProductName: name });
+      if (searchedProducts.length == 0) {
+        return res.status(404).json({
+          message: "No items found",
+        });
       }
       res.status(200).json({
-       products: searchedProducts
-      })
-
-    }catch(err){
-      return (res.status(500).json({
-        message:"Server Error"
-      }))
-
+        products: searchedProducts,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Server Error",
+      });
     }
-    
   },
-  filterProducts:async(req,res)=>{
-    const id=req.params.id;
-    if(id=="FBD"){
-      const result=await Products.find().sort({dateAdded:-1})
-      return (res.status(200).json({
-        product:result
-      }))
+  filterProducts: async (req, res) => {
+    const { filter } = req.query;
+
+    try {
+      if (id == "FBD") {
+        const result = await Products.find().sort({ dateAdded: -1 });
+        return res.status(200).json({
+          product: result,
+        });
+      } else if (id == "FBN") {
+        const result = await Products.find().sort({ ProductName: 1 });
+        return res.status(200).json({
+          product: result,
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: "Internal server error",
+      });
     }
-    else if(id="FBN"){
-      const result=await Products.find().sort({ProductName:1})
-      return(res.status(200).json({
-        product:result
-      }))
-    }
-  }
+  },
 };
 
 module.exports = productControllers;
