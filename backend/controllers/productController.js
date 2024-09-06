@@ -58,10 +58,15 @@ const productControllers = {
       });
     }
   },
-  updateProductList: async (req, res) => {
-    const { id } = req.params;
 
+  updateProductList: async (req, res) => {
+   
+    
+    const { id } = req.params;
+    const filename  = req.file?.filename;
+    
     const { ProductName, Category, Price, Description, Quantity } = req.body;
+    
 
     try {
       await Products.findByIdAndUpdate(id, {
@@ -70,6 +75,7 @@ const productControllers = {
         Price,
         Quantity,
         Category,
+        fileName:filename
       });
 
       return res.status(200).json({
@@ -81,20 +87,26 @@ const productControllers = {
       });
     }
   },
+
   getProductById: async (req, res) => {
     const { id } = req.params;
+   
+   
 
     try {
       const findItem = await Products.findById(id);
+      console.log(findItem);
       return res.status(200).json({
         products: findItem,
       });
+      
     } catch (err) {
       return res.status(500).json({
         message: "Internal Server Error",
       });
     }
   },
+
   deleteProductList: async (req, res) => {
     const { id } = req.params;
     try {
@@ -113,6 +125,7 @@ const productControllers = {
       });
     }
   },
+
   downloadProductList: async (req, res) => {
     const filename = req.params.id;
     console.log("the filename is", filename);
@@ -134,6 +147,7 @@ const productControllers = {
       });
     }
   },
+  
   searchProducts: async (req, res) => {
     const name = req.params.id;
     console.log(name);

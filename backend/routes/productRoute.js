@@ -14,6 +14,8 @@ productRouter.post(
   productControllers.createProductList
 );
 
+productRouter.put('/products/:id',upload.single("Picture"),productControllers.updateProductList)
+
 productRouter.route("/products/:id").put(productControllers.updateProductList);
 
 productRouter
