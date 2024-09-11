@@ -1,6 +1,7 @@
 const Products = require("../models/ProductModel");
 const path = require("path");
 const fs = require("fs");
+
 const productControllers = {
   createProductList: async (req, res) => {
     const { filename } = req.file;
@@ -22,7 +23,7 @@ const productControllers = {
         fileName: filename,
       });
 
-      res.json({ data: result, message: "Item Added Successfully" });
+      res.json({ data: result, message: "Item Added Successfully",ok:true });
     } catch (err) {
       return res.status(400).json({
         err: err.message,
@@ -80,6 +81,7 @@ const productControllers = {
 
       return res.status(200).json({
         message: "Product updated successfully",
+        ok:true
       });
     } catch (err) {
       return res.status(500).json({

@@ -4,6 +4,7 @@ const cors=require('cors');
 const bodyParser=require('body-parser')
 
 const productRouter = require("./routes/productRoute");
+const userRouter=require('./routes/userRouter');
 const connectToDb = require("./connection/connection");
 
 const app = express();
@@ -34,5 +35,6 @@ if (process.env.NODE_ENV == "development") {
 
 // setting up route middlewares
 app.use("/api", productRouter);
+app.use('/api/auth',userRouter);
 
 module.exports = app;
