@@ -4,22 +4,22 @@ const userSchema=new Schema({
     email:{
         type:String,
         required:true,
-        unique:true,
+        
     },
     password:{
         type:String,
         required:true,
-        unique:true
+        
     },
-    name:{
+    userName:{
         type:String,
         required:true,
-        unique:true
+        
     },
     phone:{
         type:String,
         reqired:true,
-        unique:true
+        
     },
     role:{
         type:String,
