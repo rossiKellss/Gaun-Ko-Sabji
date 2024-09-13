@@ -6,7 +6,7 @@ const userRegistrationSchema=require('../validation/validationSchema');
 
 
 const userRouter=express.Router();
-userRouter.route('/signup').post(userControllers.signUp);
+userRouter.route('/signup').post(validate(userRegistrationSchema),userControllers.signUp);
 userRouter.route('/signin').post(userControllers.signIn);
 userRouter.route('/confirm').post(userControllers.confirm)
 userRouter.route('/forgot-password').post(userControllers.forgotPass)

@@ -30,10 +30,11 @@ const userControllers={
 
             }
             const confirmationCode=generateConfirmationCode();
+            const expiresIn=Date.now()+36000000;
            
            
             
-            const result=await Users.create({email,userName,password,phone,confirmationCode});
+            const result=await Users.create({email,userName,password,phone,confirmationCode,expiresIn});
             
              const confirmEmail=await sendConfirmationCode(confirmationCode,email);
              if(!confirmEmail){
@@ -101,25 +102,18 @@ const userControllers={
 
     },
     confirm:async(req,res)=>{
+        
         try{
-            const {email,confirmationCode}=req.body
-            const user=await Users.findOne({email});
+            
+            const {confirmationCode}=req.body
+            const user=await Users.findOne({confirmationCode,expiresIn:{$gte:Date.now()}});
             if(!user){
                 return res.status(400).json({
                     sucess:false,
-                    message:"User doesn't exists"
+                    message:"Confirmation code invalid or expired"
                 })
             }
-            const code=user.confirmationCode;
-            
-            
-
-            if(code!=confirmationCode){
-                return res.status(400).json({
-                    success:false,
-                    message:"Enter the correct code"
-                })
-            }
+           
             user.isVerified=true;
             user.confirmationCode=null;
             await user.save();
