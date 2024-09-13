@@ -1,5 +1,5 @@
 const {z}=require('zod');
-const Users = require('../models/UserModel');
+
 
 const userRegistrationSchema=z.object({
     userName:z.string().min(2,{message:"Message must be at least 2 characters long"}),

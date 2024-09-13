@@ -37,6 +37,10 @@ const userSchema=new Schema({
     verificationCode:{
         type:String,
     },
+    expiresIn:{
+        type:Date,
+    },
+
     dateCreated:{
         type:Date,
         default:Date.now

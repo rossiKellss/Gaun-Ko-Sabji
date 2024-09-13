@@ -149,8 +149,11 @@ const userControllers={
                     message:"Email not found"
                 })
             }
+            
             const code=generateConfirmationCode();
+            const expires=Date.now()+3600000;
             user.confirmationCode=code;
+            user.expiresIn=expires;
             await user.save();
             await sendConfirmationCode(code,email);
             return res.status(200).json({
@@ -165,25 +168,68 @@ const userControllers={
 
         }
     },
-    changePass:async(req,res)=>{
-        const {email,confirmationCode}=req.body;
+    validateToken:async(req,res)=>{
+        const {token}=req.params;
+
         try{
-            const user=await Users.findOne({email});
-            if(!user){
-                return res.status(400).json({
-                    message:"Email not found"
-                })
-            }
-            const userCode=user.confirmationCode;
-            if(userCode!=confirmationCode){
-                return res.status(400).json({
-                    message:"Invalid code"
-                })
-            }
+            const isValid=await Users.findOne({
+                confirmationCode:token,
+                expiresIn:{$gte:Date.now()}
+               
+            })
             
+            if(!isValid){
+                return res.status(400).json({
+                    success:false,
+                    message:"Verification code is not valid or expired"
+                })
+            }
+            req.token=token;
+            
+           
+            return res.status(200).json({
+                success:true,
+                message:"Token is verified"
+            })
+            
+    
+    
         }catch(err){
             console.log(err);
+            return res.status(500).json({
+                message:"Internal server error"
+            })
+    
         }
+    },
+    changePassword:async(req,res)=>{
+        const token=req.token;
+        const {newPassword}=req.body;
+        try{
+            const user=await Users.findOne({token});
+            if(!user){
+                return (res.status(400).json({
+                    success:false,
+                    message:"Token invalid or expired"
+                }))
+            }
+            user.password=newPassword;
+            await user.save();
+            return(res.status(200).json({
+                success:true,
+                message:"Password changed successfully"
+
+            }))
+
+        }catch(err){
+            console.log(err);
+            res.status(500).json({
+                message:"Internal server error occured"
+            })
+
+        }
+
+
     }
 
 
