@@ -101,7 +101,7 @@ const userControllers={
         }
 
     },
-    confirm:async(req,res)=>{
+    confirmUser:async(req,res)=>{
         
         try{
             
