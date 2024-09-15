@@ -9,19 +9,55 @@ import Heading from "../components/SubComponent/HeadingTitle/Heading";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [userCred, setUserCred] = useState({});
+  const [userCred, setUserCred] = useState({username:""});
 
   const getUserCred = (e) => {
     const name = e.target.name;
+    
     const value = e.target.value;
-    setUserCred({
-      ...userCred,
-      [name]: value,
-    });
-  };
+    if(name=='firstname'){
+     
+      const cFirstname=value.charAt(0).toUpperCase()+value.slice(1);
+     
+      setUserCred({
+        ...userCred,
+        [name]:cFirstname
 
-  const onSubmit=(e)=>{
+      })
+
+    }
+    else if(name=='lastname'){
+      const cLastName=value.charAt(0).toUpperCase()+value.slice(1);
+      setUserCred({
+        ...userCred,
+        [name]:cLastName
+
+      })
+
+    }
+    else{
+      setUserCred({
+        ...userCred,
+        [name]: value,
+        username:`${userCred.firstname} ${userCred.lastname}`
+        
+      });
+
+    }
+    
+    // const username=`${cFirstname} ${cLastName}`
+    
+  };
+  console.log(userCred)
+
+  
+
+  const handleSubmit=(e)=>{
     e.preventDefault()
+    
+
+    console.log("user cred is",userCred)
+   
     
 
   }
@@ -40,10 +76,10 @@ function SignUp() {
             />
           </div>
           <div className="right md:w-[50%]">
-            <form action="" className="w-full lg:text-lg">
+            <form action="" className="w-full lg:text-lg" onSubmit={handleSubmit}>
             <div className="w-full  mb-6 lg:mb-10 flex   gap-2">
                 <input type="text" name="firstname" placeholder="First name" className="w-1/2 border-b-2 outline-none tracking-wide capitalize" required onChange={(e)=>{getUserCred(e)}}/>
-                <input type="text" name="lastname" placeholder="Last name"className="w-1/2 border-b-2 outline-none tracking-wide capatilize " required onChange={(e)=>{getUserCred(e)}}/>
+                <input type="text" name="lastname" placeholder="Last name" className="w-1/2 border-b-2 outline-none tracking-wide capitalize " required onChange={(e)=>{getUserCred(e)}}/>
             </div>
               <div className="w-full border-b-2 mb-6 lg:mb-10">
                 <input
