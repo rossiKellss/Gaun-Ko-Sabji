@@ -4,82 +4,102 @@ import Button from "../components/SubComponent/Button/Button";
 import Footer from "../sections/Footer";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
 import { useRegisterUserMutation } from "../api/authApiSlice";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
-  const navigate=useNavigate();
+  
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [userCred, setUserCred] = useState({username:""});
-  const [registerUser]=useRegisterUserMutation();
+  const [userCred, setUserCred] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  
 
+  const [formValues, setFormValues] = useState(userCred);
+  const [errors,setErrors ]=useState({});
+  const [isSubmittable,setIsSubmittable]=useState(false);
+
+  const validate=(value)=>{
+    const errors={};
+    if(!value.username){
+      errors.username="User name is required"
+    }
+    if(!value.firstname){
+      errors.firstname="First name is required"
+    }
+    if(!value.lastname){
+      errors.lastname="Last name is required"
+    }
+    if(!value.email){
+      errors.email="Email is required"
+    }
+    if(!value.password){
+      errors.password="Password is required"
+    }
+    return errors;
+    
+  }
+  useEffect(()=>{
+    if(Object.keys(errors).length==0 && isSubmittable){
+        
+    }
+
+  },[errors])
+
+  const [registerUser] = useRegisterUserMutation();
 
   const getUserCred = (e) => {
     const name = e.target.name;
-    
+
     const value = e.target.value;
-    if(name=='firstname'){
-     
-      const cFirstname=value.charAt(0).toUpperCase()+value.slice(1);
-     
+    if (name == "firstname") {
+      const cFirstname = value.charAt(0).toUpperCase() + value.slice(1);
+
       setUserCred({
         ...userCred,
-        [name]:cFirstname
-
-      })
-
-    }
-    else if(name=='lastname'){
-      const cLastName=value.charAt(0).toUpperCase()+value.slice(1);
+        [name]: cFirstname,
+      });
+    } else if (name == "lastname") {
+      const cLastName = value.charAt(0).toUpperCase() + value.slice(1);
       setUserCred({
         ...userCred,
-        [name]:cLastName
-
-      })
-
+        [name]: cLastName,
+      });
     }
-    else{
       setUserCred({
         ...userCred,
         [name]: value,
-        userName:`${userCred.firstname} ${userCred.lastname}`
-        
+        username: `${userCred.firstname} ${userCred.lastname}`,
       });
-
-    }
-    
-    
     
   };
-  
 
   
 
-  const handleSubmit=async(e)=>{
-    e.preventDefault()
-    try{
-      const userData=await registerUser(userCred).unwrap()
-      console.log(userData);
-      const {data}=userData;
-      console.log(data);
-      if(userData.success){
-        navigate('/confirm-user');
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors(validate(userCred));
+    // try {
+    //   const userData = await registerUser(userCred).unwrap();
 
-      
-     
-    }catch(err){
-      console.log(err);
-    }
-    
-
-   
-   
-    
-
-  }
+    //   const { data } = userData;
+    //   console.log(data);
+    //   if (userData.success) {
+    //     navigate("/confirm-user");
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
 
   return (
     <div>
@@ -95,11 +115,33 @@ function SignUp() {
             />
           </div>
           <div className="right md:w-[50%]">
-            <form action="" className="w-full lg:text-lg" onSubmit={handleSubmit}>
-            <div className="w-full  mb-6 lg:mb-10 flex   gap-2">
-                <input type="text" name="firstname" placeholder="First name" className="w-1/2 border-b-2 outline-none tracking-wide capitalize" required onChange={(e)=>{getUserCred(e)}}/>
-                <input type="text" name="lastname" placeholder="Last name" className="w-1/2 border-b-2 outline-none tracking-wide capitalize " required onChange={(e)=>{getUserCred(e)}}/>
-            </div>
+            <form
+              action=""
+              className="w-full lg:text-lg"
+              onSubmit={handleSubmit}
+            >
+              <div className="w-full  mb-6 lg:mb-10 flex   gap-2">
+                <input
+                  type="text"
+                  name="firstname"
+                  placeholder="First name"
+                  className="w-1/2 border-b-2 outline-none tracking-wide capitalize"
+                  required
+                  onChange={(e) => {
+                    getUserCred(e);
+                  }}
+                />
+                <input
+                  type="text"
+                  name="lastname"
+                  placeholder="Last name"
+                  className="w-1/2 border-b-2 outline-none tracking-wide capitalize "
+                  required
+                  onChange={(e) => {
+                    getUserCred(e);
+                  }}
+                />
+              </div>
               <div className="w-full border-b-2 mb-6 lg:mb-10">
                 <input
                   type="email"
@@ -161,7 +203,12 @@ function SignUp() {
                   </span>
                 </Link>
               </div>
-              <Button content={"Continue"} onClick={()=>{onSubmit}} />
+              <Button
+                content={"Continue"}
+                onClick={() => {
+                  onSubmit;
+                }}
+              />
             </form>
           </div>
         </div>

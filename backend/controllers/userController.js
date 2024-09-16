@@ -90,10 +90,10 @@ const userControllers = {
     }
   },
   confirmUser: async (req, res) => {
-    console.log(req.body);
+    
 
     try {
-      const  confirmationCode  = req.body;
+      const  confirmationCode  = req.body.otp;
       const user = await Users.findOne({
         confirmationCode,
         expiresIn: { $gte: Date.now() },

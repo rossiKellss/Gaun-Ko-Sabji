@@ -63,8 +63,12 @@ export default function CodeConfirmation() {
   };
   
   const handleSubmit=async(e)=>{
-    e.preventDefault();
-    const res=await confirmUser(otp);
+      e.preventDefault();
+      const OTP=otp.join('')
+      
+    const res=await confirmUser({
+        otp:OTP
+    });
     console.log(res)
 
   }
