@@ -6,10 +6,15 @@ import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
 import { useState } from "react";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
+import { useRegisterUserMutation } from "../api/authApiSlice";
+import {useNavigate} from 'react-router-dom'
 
 function SignUp() {
+  const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [userCred, setUserCred] = useState({username:""});
+  const [registerUser]=useRegisterUserMutation();
+
 
   const getUserCred = (e) => {
     const name = e.target.name;
@@ -39,24 +44,38 @@ function SignUp() {
       setUserCred({
         ...userCred,
         [name]: value,
-        username:`${userCred.firstname} ${userCred.lastname}`
+        userName:`${userCred.firstname} ${userCred.lastname}`
         
       });
 
     }
     
-    // const username=`${cFirstname} ${cLastName}`
+    
     
   };
-  console.log(userCred)
+  
 
   
 
-  const handleSubmit=(e)=>{
+  const handleSubmit=async(e)=>{
     e.preventDefault()
+    try{
+      const userData=await registerUser(userCred).unwrap()
+      console.log(userData);
+      const {data}=userData;
+      console.log(data);
+      if(userData.success){
+        navigate('/confirm-user');
+      }
+
+      
+     
+    }catch(err){
+      console.log(err);
+    }
     
 
-    console.log("user cred is",userCred)
+   
    
     
 
@@ -99,7 +118,7 @@ function SignUp() {
                   pattern="[0-9]*"
                   className="w-full outline-none tracking-wide "
                   placeholder="Phone number"
-                  name="phoneNumber"
+                  name="phone"
                   onChange={(e) => {
                     getUserCred(e);
                   }}
