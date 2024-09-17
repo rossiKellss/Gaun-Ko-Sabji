@@ -6,14 +6,11 @@ import { PiEyeBold } from "react-icons/pi";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
 import { useRegisterUserMutation } from "../api/authApiSlice";
 import { useNavigate } from "react-router-dom";
-import {Alert} from "../components/Alert"; 
-
+import { Alert } from "../components/Alert";
 
 function SignUp() {
   // initializing register function
   const [registerUser] = useRegisterUserMutation();
-
-  
 
   //  initializing nagivation
   const navigate = useNavigate();
@@ -128,15 +125,13 @@ function SignUp() {
         const userData = await registerUser(userCred).unwrap();
 
         console.log(userData);
-        
-       
+
         if (userData.success) {
           navigate("/confirm-user");
         }
       } catch (err) {
         const message = err.data.message;
-        Alert(message,'error');
-        
+        Alert(message, "error");
       }
     }
   };
@@ -145,7 +140,7 @@ function SignUp() {
     <div>
       <div className="w-[80%]  firstContentMargin  ">
         <Heading content={"Sign Up"} />
-        <div className="flex flex-col md:flex-row  md:h-52 lg:h-96  md:gap-2 w-full items-center">
+        <div className="flex flex-col md:flex-row  md:h-50 lg:h-96  md:gap-2 w-full items-center">
           <div className=" hidden md:block md:w-[50%] h-full ">
             <img
               src="https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7893.jpg?t=st=1721897712~exp=1721901312~hmac=4bcb2d264a3f76567b14627d327ae167b1c66bd8276bd294ae33d4d90f6e1e51&w=740"
@@ -159,8 +154,9 @@ function SignUp() {
               className="w-full lg:text-lg"
               onSubmit={handleSubmit}
             >
-              <div className="w-full  mb-6  flex gap-2">
-                <div className="">
+              <div className="w-full  mb-6  flex gap-2 ">
+                
+                <div className="w-full">
                   <input
                     type="text"
                     name="firstname"
@@ -172,7 +168,8 @@ function SignUp() {
                   />
                   <p className="text-red-500 text-sm ">{errors.firstname}</p>
                 </div>
-                <div>
+
+                <div className="w-full">
                   <input
                     type="text"
                     name="lastname"
@@ -215,10 +212,10 @@ function SignUp() {
               </div>
 
               <div className="w-full  flex flex-col  mb-4 lg:mb-6">
-                <div className="flex ">
+                <div className="flex border-b-2 ">
                   <input
                     type={`${showPassword.password ? "text" : "password"}`}
-                    className="w-full outline-none tracking-wide border-b-2"
+                    className="w-full outline-none tracking-wide "
                     placeholder="Enter your password"
                     name="password"
                     onChange={(e) => {
@@ -254,13 +251,13 @@ function SignUp() {
                 <p className="text-red-500 text-sm ">{errors.password}</p>
               </div>
 
-              <div className="w-full  flex flex-col  mb-4 ">
-                <div className="flex ">
+              <div className="w-full  flex flex-col  mb-2 ">
+                <div className="flex border-b-2">
                   <input
                     type={`${
                       showPassword.confirmPassword ? "text" : "password"
                     }`}
-                    className="w-full outline-none tracking-wide border-b-2"
+                    className="w-full outline-none tracking-wide "
                     placeholder="Confirm your password"
                     name="confirmPassword"
                     onChange={(e) => {
@@ -296,10 +293,10 @@ function SignUp() {
                 <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
               </div>
 
-              <div className="mb-6 ">
+              <div className="mb-5 ">
                 <Link to={"/login"}>
                   <span className="underline text-sm text-red-600">
-                    Already have an account?
+                    Forgot password ?
                   </span>
                 </Link>
               </div>
@@ -310,6 +307,11 @@ function SignUp() {
                   onSubmit;
                 }}
               />
+              <div className="w-full mt-3 text-sm flex  gap-1 justify-center">
+
+              <p className=" text-gray-500 ">Already have an account ?{" "} </p>
+              <Link to={"/login"} className="text-blue-500 underline">Sign in here.</Link>
+              </div>
             </form>
           </div>
         </div>

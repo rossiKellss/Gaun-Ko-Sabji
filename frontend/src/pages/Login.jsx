@@ -51,7 +51,7 @@ function Login() {
     <div>
       <Navbar />
       <div className="w-[80%]  firstContentMargin  ">
-        <Heading content={"Login"} />
+        <Heading content={"Login"}  />
         <div className="flex flex-col md:flex-row  md:h-52 lg:h-96  md:gap-2 w-full items-center">
           <div className=" hidden md:block md:w-[50%] h-full ">
             <img
@@ -62,7 +62,7 @@ function Login() {
           </div>
           <div className="right md:w-[50%]">
             <form action="" className="w-full lg:text-lg" onSubmit={handleSubmit}>
-              <div className="w-full border-b-2 mb-6 lg:mb-10">
+              <div className="w-full border-b-2 mb-4 lg:mb-5">
                 <input
                   type="text"
                  
@@ -72,7 +72,7 @@ function Login() {
                   onChange={(e)=>{getUserCred(e)}}
                 />
               </div>
-              <div className="w-full border-b-2 flex items-center mb-4 lg:mb-6">
+              <div className="w-full border-b-2 flex items-center mb-2">
                 <input
                   type={`${showPassword ? "text" : "password"}`}
                   className="w-full outline-none tracking-wide "
@@ -99,14 +99,18 @@ function Login() {
                   />
                 )}
               </div>
-              <div className="mb-4 lg:mb-8">
+              <div className="mb-4 lg:mb-5">
                 <Link to={"/signup"}>
-                  <span className="underline text-red-600">
-                    Already have an account?
+                  <span className="underline text-red-600 text-sm">
+                    Forgot password ?
                   </span>
                 </Link>
               </div>
               <Button content={"Continue"} />
+              <div className="w-full mt-3 text-sm flex  gap-1 justify-center">
+              <p className=" text-gray-500 ">Already have an account ?{" "} </p>
+              <Link to={"/signup"} className="text-blue-500 underline">Sign up here.</Link>
+              </div>
             </form>
           </div>
         </div>

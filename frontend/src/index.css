@@ -17,13 +17,13 @@
     @apply text-3xl md:text-4xl text-gray-600 font-bold  transition ease-linear cursor-pointer hover:scale-110 hover:text-green-500;
   }
   .button {
-    @apply text-base rounded-full transition ease-linear text-white  bg-green-600 px-3 py-1 md:text-lg  lg:px-4 lg:py-1  hover:border-green-500 hover:scale-105;
+    @apply text-base rounded-full w-full transition ease-linear text-white  bg-green-600 px-3 py-1 md:text-lg  lg:px-4 lg:py-1  hover:border-green-500 hover:scale-[1.01];
   }
   .contentMargin {
     @apply mt-10 lg:mt-16;
   }
   .bg-background {
-    @apply bg-[#fefffe] border-b-2
+    @apply bg-[#fefffe] border-b-2;
   }
   .firstContentMargin {
     @apply mt-28 mx-auto md:mt-32 lg:mt-36;
@@ -44,5 +44,4 @@
   .menu::-webkit-scrollbar {
     display: none;
   }
- 
 }
