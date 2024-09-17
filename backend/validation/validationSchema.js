@@ -11,4 +11,4 @@ const userRegistrationSchema=z.object({
 
 })
 
-module.exports=userRegistrationSchema;
+module.exports=userRegistrationSchema;  

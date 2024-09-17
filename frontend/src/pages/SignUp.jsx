@@ -12,7 +12,10 @@ import { useNavigate } from "react-router-dom";
 function SignUp() {
   
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    password:false,
+    confirmPassword:false
+  });
   const [userCred, setUserCred] = useState({
     username: "",
     firstname: "",
@@ -30,27 +33,47 @@ function SignUp() {
 
   const validate=(value)=>{
     const errors={};
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+
     if(!value.username){
-      errors.username="User name is required"
+      errors.username="User name is required!"
     }
     if(!value.firstname){
-      errors.firstname="First name is required"
+      errors.firstname="First name is required!"
     }
     if(!value.lastname){
-      errors.lastname="Last name is required"
+      errors.lastname="Last name is required!"
     }
     if(!value.email){
-      errors.email="Email is required"
+      errors.email="Email is required!"
+    }else if(!emailRegex.test(value.email)){
+      errors.email="Invalid Email"
+    }
+    if(!value.phone){
+      errors.phone="Phone is required!"
+
+    }else if(value.phone!=10){
+      errors.phone="Invalid phone number"
     }
     if(!value.password){
-      errors.password="Password is required"
+      errors.password="Password is required!"
+    }else if(!value.password.length<8){
+      errors.password="Password must be 8 characters long."
+    }
+    if(!value.confirmPassword){
+      errors.confirmPassword="Password is required"
+    }else if(value.confirmPassword!=value.password){
+      errors.confirmPassword="Password doesn't match"
+
     }
     return errors;
     
   }
   useEffect(()=>{
     if(Object.keys(errors).length==0 && isSubmittable){
-        
+      
     }
 
   },[errors])
@@ -120,57 +143,67 @@ function SignUp() {
               className="w-full lg:text-lg"
               onSubmit={handleSubmit}
             >
-              <div className="w-full  mb-6 lg:mb-10 flex   gap-2">
+              <div className="w-full  mb-6 lg:mb-10 flex    gap-2">
+                <div className="">
                 <input
                   type="text"
                   name="firstname"
                   placeholder="First name"
-                  className="w-1/2 border-b-2 outline-none tracking-wide capitalize"
-                  required
+                  className="w-full border-b-2 outline-none tracking-wide capitalize"
+                  
                   onChange={(e) => {
                     getUserCred(e);
                   }}
                 />
+                  <p className="text-red-500 text-xs">{errors.firstname}</p>
+                </div>
+                <div>
                 <input
                   type="text"
                   name="lastname"
                   placeholder="Last name"
-                  className="w-1/2 border-b-2 outline-none tracking-wide capitalize "
-                  required
+                  className="w-full border-b-2 outline-none tracking-wide capitalize "
+                  
                   onChange={(e) => {
                     getUserCred(e);
                   }}
                 />
+                <p className="text-red-500 text-xs">{errors.lastname}</p>
+                </div>
+                
               </div>
-              <div className="w-full border-b-2 mb-6 lg:mb-10">
+              <div className="w-full  mb-6 lg:mb-10">
                 <input
                   type="email"
-                  className="w-full outline-none tracking-wide "
+                  className="w-full outline-none tracking-wide border-b-2 "
                   placeholder="Email"
                   name="email"
                   onChange={(e) => {
                     getUserCred(e);
                   }}
                 />
+                <p className="text-red-500 text-xs">{errors.email}</p>
               </div>
-              <div className="w-full border-b-2 mb-6 lg:mb-10">
+              <div className="w-full  mb-6 lg:mb-10">
                 <input
                   type="number"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  className="w-full outline-none tracking-wide "
+                  className="w-full outline-none tracking-wide border-b-2"
                   placeholder="Phone number"
                   name="phone"
                   onChange={(e) => {
                     getUserCred(e);
                   }}
                 />
+                <p className="text-red-500 text-xs">{errors.phone}</p>
               </div>
 
-              <div className="w-full border-b-2 flex items-center mb-4 lg:mb-6">
+              <div className="w-full  flex flex-col  mb-4 lg:mb-6">
+                <div className="flex ">
                 <input
-                  type={`${showPassword ? "text" : "password"}`}
-                  className="w-full outline-none tracking-wide "
+                  type={`${showPassword.password ? "text" : "password"}`}
+                  className="w-full outline-none tracking-wide border-b-2"
                   placeholder="Enter your password"
                   name="password"
                   onChange={(e) => {
@@ -178,27 +211,66 @@ function SignUp() {
                   }}
                 />
 
-                {!showPassword && (
+                {!showPassword.password && (
                   <PiEyeClosedBold
                     className="text-gray-500 text-lg"
                     onClick={() => {
-                      setShowPassword(!showPassword);
+                      setShowPassword({...showPassword,password:!showPassword.password});
                     }}
                   />
                 )}
 
-                {showPassword && (
+                {showPassword.password && (
                   <PiEyeBold
                     className="text-gray-500 text-lg"
                     onClick={() => {
-                      setShowPassword(!showPassword);
+                      setShowPassword({...showPassword,password:!showPassword.password});
                     }}
                   />
                 )}
+
+                </div>
+
+                <p className="text-red-500 text-xs">{errors.password}</p>
+              </div>
+
+              <div className="w-full  flex flex-col  mb-4 lg:mb-6">
+                <div className="flex ">
+                <input
+                  type={`${showPassword.confirmPassword ? "text" : "password"}`}
+                  className="w-full outline-none tracking-wide border-b-2"
+                  placeholder="Confirm your password"
+                  name="confirmPassword"
+                  onChange={(e) => {
+                    getUserCred(e);
+                  }}
+                />
+
+                {!showPassword.confirmPassword && (
+                  <PiEyeClosedBold
+                    className="text-gray-500 text-lg"
+                    onClick={() => {
+                      setShowPassword({...showPassword,confirmPassword:!showPassword.confirmPassword});
+                    }}
+                  />
+                )}
+
+                {showPassword.confirmPassword && (
+                  <PiEyeBold
+                    className="text-gray-500 text-lg"
+                    onClick={() => {
+                      setShowPassword({...showPassword,confirmPassword:!showPassword.confirmPassword});
+                    }}
+                  />
+                )}
+
+                </div>
+
+                <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
               </div>
               <div className="mb-4 lg:mb-8">
                 <Link to={"/login"}>
-                  <span className="underline text-red-600">
+                  <span className="underline text-sm text-red-600">
                     Already have an account?
                   </span>
                 </Link>
@@ -206,14 +278,14 @@ function SignUp() {
               <Button
                 content={"Continue"}
                 onClick={() => {
-                  onSubmit;
+                  onSubmit
                 }}
               />
             </form>
           </div>
         </div>
       </div>
-      <Footer />
+     
     </div>
   );
 }
