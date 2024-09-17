@@ -1,85 +1,88 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import Button from "../components/SubComponent/Button/Button";
-import Footer from "../sections/Footer";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
-import { useEffect, useState } from "react";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
 import { useRegisterUserMutation } from "../api/authApiSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function SignUp() {
-  
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState({
-    password:false,
-    confirmPassword:false
-  });
-  const [userCred, setUserCred] = useState({
-    username: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-  });
-  
-
-  const [formValues, setFormValues] = useState(userCred);
-  const [errors,setErrors ]=useState({});
-  const [isSubmittable,setIsSubmittable]=useState(false);
-
-  const validate=(value)=>{
-    const errors={};
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-
-    if(!value.username){
-      errors.username="User name is required!"
-    }
-    if(!value.firstname){
-      errors.firstname="First name is required!"
-    }
-    if(!value.lastname){
-      errors.lastname="Last name is required!"
-    }
-    if(!value.email){
-      errors.email="Email is required!"
-    }else if(!emailRegex.test(value.email)){
-      errors.email="Invalid Email"
-    }
-    if(!value.phone){
-      errors.phone="Phone is required!"
-
-    }else if(value.phone!=10){
-      errors.phone="Invalid phone number"
-    }
-    if(!value.password){
-      errors.password="Password is required!"
-    }else if(!value.password.length<8){
-      errors.password="Password must be 8 characters long."
-    }
-    if(!value.confirmPassword){
-      errors.confirmPassword="Password is required"
-    }else if(value.confirmPassword!=value.password){
-      errors.confirmPassword="Password doesn't match"
-
-    }
-    return errors;
-    
-  }
-  useEffect(()=>{
-    if(Object.keys(errors).length==0 && isSubmittable){
-      
-    }
-
-  },[errors])
-
+  // initializing register function
   const [registerUser] = useRegisterUserMutation();
 
+  // initializing alert message
+  const mySwal = withReactContent(Swal);
+
+  //  initializing nagivation
+  const navigate = useNavigate();
+
+  // for show password feature
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
+  // for getting user credentials from onChange function
+  const [userCred, setUserCred] = useState({});
+
+  // for error lists
+  const [errors, setErrors] = useState({});
+
+  //  form validation function
+  const validate = (value) => {
+    const errors = {};
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!value.userName) {
+      errors.userName = "User name is required!";
+    } else {
+      errors.userName = "";
+    }
+    if (!value.firstname) {
+      errors.firstname = "First name is required!";
+    } else {
+      errors.firstname = "";
+    }
+    if (!value.lastname) {
+      errors.lastname = "Last name is required!";
+    } else {
+      errors.lastname = "";
+    }
+    if (!value.email) {
+      errors.email = "Email is required!";
+    } else if (!emailRegex.test(value.email)) {
+      errors.email = "Invalid Email";
+    } else {
+      errors.email = "";
+    }
+    if (!value.phone) {
+      errors.phone = "Phone is required!";
+    } else if (value.phone.length != 10) {
+      errors.phone = "Invalid phone number";
+    } else {
+      errors.phone = "";
+    }
+    if (!value.password) {
+      errors.password = "Password is required!";
+    } else if (value.password.length < 8) {
+      errors.password = "Password must be 8 characters long.";
+    } else {
+      errors.password = "";
+    }
+    if (!value.confirmPassword) {
+      errors.confirmPassword = "Password is required";
+    } else if (value.confirmPassword != value.password) {
+      errors.confirmPassword = "Password doesn't match";
+    } else {
+      errors.confirmPassword = "";
+    }
+    return errors;
+  };
+
+  // getting user credentials from form
   const getUserCred = (e) => {
     const name = e.target.name;
 
@@ -98,35 +101,47 @@ function SignUp() {
         [name]: cLastName,
       });
     }
-      setUserCred({
-        ...userCred,
-        [name]: value,
-        username: `${userCred.firstname} ${userCred.lastname}`,
-      });
-    
+    setUserCred({
+      ...userCred,
+      [name]: value,
+      userName: `${userCred.firstname} ${userCred.lastname}`,
+    });
   };
 
-  
+  //counting the error lists
+  const countErrors = (data) => {
+    const unfilteredValues = Object.entries(data).filter(
+      ([key, value]) => !value == ""
+    );
+    return unfilteredValues;
+  };
 
+  //submitting the from
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(validate(userCred));
-    // try {
-    //   const userData = await registerUser(userCred).unwrap();
+    const validationErrors = validate(userCred);
+    const errLen = countErrors(validationErrors).length;
 
-    //   const { data } = userData;
-    //   console.log(data);
-    //   if (userData.success) {
-    //     navigate("/confirm-user");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    setErrors(validationErrors);
+
+    if (errLen == 0) {
+      try {
+        const userData = await registerUser(userCred).unwrap();
+
+        const { data } = userData;
+        console.log(data);
+        if (userData.success) {
+          navigate("/confirm-user");
+        }
+      } catch (err) {
+        const message = err.data.message;
+        alert(message);
+      }
+    }
   };
 
   return (
     <div>
-      <Navbar />
       <div className="w-[80%]  firstContentMargin  ">
         <Heading content={"Sign Up"} />
         <div className="flex flex-col md:flex-row  md:h-52 lg:h-96  md:gap-2 w-full items-center">
@@ -143,36 +158,34 @@ function SignUp() {
               className="w-full lg:text-lg"
               onSubmit={handleSubmit}
             >
-              <div className="w-full  mb-6 lg:mb-10 flex    gap-2">
+              <div className="w-full  mb-6  flex gap-2">
                 <div className="">
-                <input
-                  type="text"
-                  name="firstname"
-                  placeholder="First name"
-                  className="w-full border-b-2 outline-none tracking-wide capitalize"
-                  
-                  onChange={(e) => {
-                    getUserCred(e);
-                  }}
-                />
-                  <p className="text-red-500 text-xs">{errors.firstname}</p>
+                  <input
+                    type="text"
+                    name="firstname"
+                    placeholder="First name"
+                    className="w-full border-b-2 outline-none tracking-wide capitalize"
+                    onChange={(e) => {
+                      getUserCred(e);
+                    }}
+                  />
+                  <p className="text-red-500 text-sm ">{errors.firstname}</p>
                 </div>
                 <div>
-                <input
-                  type="text"
-                  name="lastname"
-                  placeholder="Last name"
-                  className="w-full border-b-2 outline-none tracking-wide capitalize "
-                  
-                  onChange={(e) => {
-                    getUserCred(e);
-                  }}
-                />
-                <p className="text-red-500 text-xs">{errors.lastname}</p>
+                  <input
+                    type="text"
+                    name="lastname"
+                    placeholder="Last name"
+                    className="w-full border-b-2 outline-none tracking-wide capitalize "
+                    onChange={(e) => {
+                      getUserCred(e);
+                    }}
+                  />
+                  <p className="text-red-500 text-sm">{errors.lastname}</p>
                 </div>
-                
               </div>
-              <div className="w-full  mb-6 lg:mb-10">
+
+              <div className="w-full  mb-6 ">
                 <input
                   type="email"
                   className="w-full outline-none tracking-wide border-b-2 "
@@ -182,9 +195,10 @@ function SignUp() {
                     getUserCred(e);
                   }}
                 />
-                <p className="text-red-500 text-xs">{errors.email}</p>
+                <p className="text-red-500 text-sm">{errors.email}</p>
               </div>
-              <div className="w-full  mb-6 lg:mb-10">
+
+              <div className="w-full  mb-6 ">
                 <input
                   type="number"
                   inputMode="numeric"
@@ -196,96 +210,109 @@ function SignUp() {
                     getUserCred(e);
                   }}
                 />
-                <p className="text-red-500 text-xs">{errors.phone}</p>
+                <p className="text-red-500 text-sm">{errors.phone}</p>
               </div>
 
               <div className="w-full  flex flex-col  mb-4 lg:mb-6">
                 <div className="flex ">
-                <input
-                  type={`${showPassword.password ? "text" : "password"}`}
-                  className="w-full outline-none tracking-wide border-b-2"
-                  placeholder="Enter your password"
-                  name="password"
-                  onChange={(e) => {
-                    getUserCred(e);
-                  }}
-                />
-
-                {!showPassword.password && (
-                  <PiEyeClosedBold
-                    className="text-gray-500 text-lg"
-                    onClick={() => {
-                      setShowPassword({...showPassword,password:!showPassword.password});
+                  <input
+                    type={`${showPassword.password ? "text" : "password"}`}
+                    className="w-full outline-none tracking-wide border-b-2"
+                    placeholder="Enter your password"
+                    name="password"
+                    onChange={(e) => {
+                      getUserCred(e);
                     }}
                   />
-                )}
 
-                {showPassword.password && (
-                  <PiEyeBold
-                    className="text-gray-500 text-lg"
-                    onClick={() => {
-                      setShowPassword({...showPassword,password:!showPassword.password});
-                    }}
-                  />
-                )}
+                  {!showPassword.password && (
+                    <PiEyeClosedBold
+                      className="text-gray-500 text-lg"
+                      onClick={() => {
+                        setShowPassword({
+                          ...showPassword,
+                          password: !showPassword.password,
+                        });
+                      }}
+                    />
+                  )}
 
+                  {showPassword.password && (
+                    <PiEyeBold
+                      className="text-gray-500 text-lg"
+                      onClick={() => {
+                        setShowPassword({
+                          ...showPassword,
+                          password: !showPassword.password,
+                        });
+                      }}
+                    />
+                  )}
                 </div>
 
-                <p className="text-red-500 text-xs">{errors.password}</p>
+                <p className="text-red-500 text-sm ">{errors.password}</p>
               </div>
 
-              <div className="w-full  flex flex-col  mb-4 lg:mb-6">
+              <div className="w-full  flex flex-col  mb-4 ">
                 <div className="flex ">
-                <input
-                  type={`${showPassword.confirmPassword ? "text" : "password"}`}
-                  className="w-full outline-none tracking-wide border-b-2"
-                  placeholder="Confirm your password"
-                  name="confirmPassword"
-                  onChange={(e) => {
-                    getUserCred(e);
-                  }}
-                />
-
-                {!showPassword.confirmPassword && (
-                  <PiEyeClosedBold
-                    className="text-gray-500 text-lg"
-                    onClick={() => {
-                      setShowPassword({...showPassword,confirmPassword:!showPassword.confirmPassword});
+                  <input
+                    type={`${
+                      showPassword.confirmPassword ? "text" : "password"
+                    }`}
+                    className="w-full outline-none tracking-wide border-b-2"
+                    placeholder="Confirm your password"
+                    name="confirmPassword"
+                    onChange={(e) => {
+                      getUserCred(e);
                     }}
                   />
-                )}
 
-                {showPassword.confirmPassword && (
-                  <PiEyeBold
-                    className="text-gray-500 text-lg"
-                    onClick={() => {
-                      setShowPassword({...showPassword,confirmPassword:!showPassword.confirmPassword});
-                    }}
-                  />
-                )}
+                  {!showPassword.confirmPassword && (
+                    <PiEyeClosedBold
+                      className="text-gray-500 text-lg"
+                      onClick={() => {
+                        setShowPassword({
+                          ...showPassword,
+                          confirmPassword: !showPassword.confirmPassword,
+                        });
+                      }}
+                    />
+                  )}
 
+                  {showPassword.confirmPassword && (
+                    <PiEyeBold
+                      className="text-gray-500 text-lg"
+                      onClick={() => {
+                        setShowPassword({
+                          ...showPassword,
+                          confirmPassword: !showPassword.confirmPassword,
+                        });
+                      }}
+                    />
+                  )}
                 </div>
 
-                <p className="text-red-500 text-xs">{errors.confirmPassword}</p>
+                <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
               </div>
-              <div className="mb-4 lg:mb-8">
+
+              <div className="mb-6 ">
                 <Link to={"/login"}>
                   <span className="underline text-sm text-red-600">
                     Already have an account?
                   </span>
                 </Link>
               </div>
+
               <Button
                 content={"Continue"}
                 onClick={() => {
-                  onSubmit
+                  onSubmit;
                 }}
               />
             </form>
           </div>
         </div>
       </div>
-     
     </div>
   );
 }
