@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Button from "../components/SubComponent/Button/Button";
-import SubHeading from "../components/SubComponent/HeadingTitle/SubHeading";
+import Heading from '../components/SubComponent/HeadingTitle/Heading'
 import { useConfirmUserMutation } from "../api/authApiSlice";
 
 export default function CodeConfirmation() {
@@ -74,11 +74,11 @@ export default function CodeConfirmation() {
   }
 
   return (
-    <section className="bg-white py-10 dark:bg-dark mt-28 md:mt-32 lg:mt-30">
+    <section className="bg-white  dark:bg-dark mt-28 md:mt-32 lg:mt-30">
 
       <div className="container flex flex-col gap-4 items-center ">
-        <SubHeading content={"Enter the OTP"} className="text-center"/>
-        <form id="otp-form" className="flex flex-col gap-4  items-center justify-center" onSubmit={handleSubmit}>
+        <Heading content={"Enter the OTP"} className="text-center"/>
+        <form id="otp-form" className="flex flex-col gap-6  items-center justify-center" onSubmit={handleSubmit}>
         <div className="flex gap-2 flex-wrap items-center justify-center">
 
             

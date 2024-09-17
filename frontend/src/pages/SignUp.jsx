@@ -6,15 +6,14 @@ import { PiEyeBold } from "react-icons/pi";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
 import { useRegisterUserMutation } from "../api/authApiSlice";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import {Alert} from "../components/Alert"; 
+
 
 function SignUp() {
   // initializing register function
   const [registerUser] = useRegisterUserMutation();
 
-  // initializing alert message
-  const mySwal = withReactContent(Swal);
+  
 
   //  initializing nagivation
   const navigate = useNavigate();
@@ -135,7 +134,8 @@ function SignUp() {
         }
       } catch (err) {
         const message = err.data.message;
-        alert(message);
+        Alert(message,'error');
+        
       }
     }
   };
