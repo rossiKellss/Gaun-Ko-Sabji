@@ -127,8 +127,9 @@ function SignUp() {
       try {
         const userData = await registerUser(userCred).unwrap();
 
-        const { data } = userData;
-        console.log(data);
+        console.log(userData);
+        
+       
         if (userData.success) {
           navigate("/confirm-user");
         }

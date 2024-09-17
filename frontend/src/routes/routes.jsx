@@ -31,6 +31,11 @@ const router = createBrowserRouter([
         path: "/confirm-user",
         element: <CodeConfirmation />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      
     ],
   },
 
@@ -47,10 +52,7 @@ const router = createBrowserRouter([
     element: <Search />,
   },
  
-  {
-    path: "/login",
-    element: <Login />,
-  },
+ 
   {
     path: "/admin",
     element: <Admin />,

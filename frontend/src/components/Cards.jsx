@@ -10,7 +10,7 @@ function Cards() {
     <div className="card h-[14rem]  rounded-md border-2 shadow-lg">
         
         <div className="h-[60%] rounded-t-md relative ">
-            <img src="https://plus.unsplash.com/premium_photo-1664527306785-a4d3374f6953?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dG9tYXRvZXN8ZW58MHx8MHx8fDA%3D" alt="" srcset="" className="h-full w-full object-cover rounded-t-md"  />
+            <img srcSet="https://plus.unsplash.com/premium_photo-1664527306785-a4d3374f6953?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dG9tYXRvZXN8ZW58MHx8MHx8fDA%3D" alt="" srcSetset="" className="h-full w-full object-cover rounded-t-md"  />
             <div className="absolute right-3 bottom-3">
               <div className="text-xl p-2 bg-white rounded-full text-gray-800 lg:text-2xl ">
 

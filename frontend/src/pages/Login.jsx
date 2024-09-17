@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Button from "../components/SubComponent/Button/Button";
 import Footer from "../sections/Footer";
@@ -6,12 +6,17 @@ import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
 import { useState } from "react";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
+import { useLoginUserMutation } from "../api/authApiSlice";
+import { Alert } from "../components/Alert";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [userCred, setUserCred] = useState({});
+  const [loginUser]=useLoginUserMutation();
+  const navigate=useNavigate();
   
   const getUserCred = (e) => {
+
     const name=e.target.name;
     const value=e.target.value;
     setUserCred({
@@ -20,6 +25,27 @@ function Login() {
         
     })
   };
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    try{
+      const res=await loginUser(userCred).unwrap();
+      if(res.success){
+        navigate('/');
+        
+
+      }
+      
+
+    }catch(err){
+    
+      const message=err.data.message;
+      Alert(message,"error");
+
+
+    }
+
+  }
 
   return (
     <div>
@@ -35,12 +61,11 @@ function Login() {
             />
           </div>
           <div className="right md:w-[50%]">
-            <form action="" className="w-full lg:text-lg">
+            <form action="" className="w-full lg:text-lg" onSubmit={handleSubmit}>
               <div className="w-full border-b-2 mb-6 lg:mb-10">
                 <input
                   type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
+                 
                   className="w-full outline-none tracking-wide "
                   placeholder="Phone number or Email"
                   name="phoneOrEmail"
@@ -86,7 +111,7 @@ function Login() {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </div>
   );
 }

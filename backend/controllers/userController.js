@@ -55,9 +55,9 @@ const userControllers = {
     }
   },
   signIn: async (req, res) => {
-    const { email, password } = req.body;
+    const { phoneOrEmail, password } = req.body;
     try {
-      const user = await Users.findOne({ email });
+      const user = await Users.findOne({ $or:[{email:phoneOrEmail},{phone:phoneOrEmail}] });
       if (!user) {
         return res.status(400).json({
           success: false,
@@ -94,13 +94,15 @@ const userControllers = {
 
     try {
       const  confirmationCode  = req.body.otp;
+      console.log("the confirmation code is",confirmationCode)
       const user = await Users.findOne({
         confirmationCode,
         expiresIn: { $gte: Date.now() },
       });
       console.log(user);
+     
       if (!user) {
-        return res.status(400).json({
+        return res.status(402).json({
           sucess: false,
           message: "Confirmation code invalid or expired",
         });
