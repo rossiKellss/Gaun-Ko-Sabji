@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import Button from "../components/SubComponent/Button/Button";
-import Heading from "../components/SubComponent/HeadingTitle/Heading";
-import { useConfirmUserMutation,useValidateOtpMutation } from "../api/authApiSlice";
-import { Alert } from "../components/Alert";
+import Button from "../../components/SubComponent/Button/Button";
+import Heading from "../../components/SubComponent/HeadingTitle/Heading";
+import { useConfirmUserMutation,useValidateOtpMutation } from "../../api/authApiSlice";
+import { Alert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 

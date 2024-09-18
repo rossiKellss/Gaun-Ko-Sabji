@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Button from "../components/SubComponent/Button/Button";
-import Footer from "../sections/Footer";
+import Navbar from "../../components/Navbar";
+import Button from "../../components/SubComponent/Button/Button";
+import Footer from "../../sections/Footer";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
 import { useState } from "react";
-import Heading from "../components/SubComponent/HeadingTitle/Heading";
-import { useLoginUserMutation } from "../api/authApiSlice";
-import { Alert } from "../components/Alert";
+import Heading from "../../components/SubComponent/HeadingTitle/Heading";
+import { useLoginUserMutation } from "../../api/authApiSlice";
+import { Alert } from "../../components/Alert";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);

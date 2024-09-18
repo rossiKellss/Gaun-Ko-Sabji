@@ -1,9 +1,9 @@
 import React from 'react'
 import {useState} from 'react'
-import Heading from '../components/SubComponent/HeadingTitle/Heading'
-import Button from '../components/SubComponent/Button/Button';
-import { useResetPasswordMutation } from '../api/authApiSlice';
-import { Alert } from '../components/Alert';
+import Heading from '../../components/SubComponent/HeadingTitle/Heading'
+import Button from '../../components/SubComponent/Button/Button';
+import { useResetPasswordMutation } from '../../api/authApiSlice';
+import { Alert } from '../../components/Alert';
 import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
@@ -36,7 +36,7 @@ function ForgotPassword() {
   
     
   return (
-    <div className=' w-[80%] mx-auto mt-28 md:mt-32 lg:mt-36 '>
+    <div className=' w-[80%] mx-auto mt-28 md:mt-32 lg:mt-32 '>
         <Heading content={"Forgot password"}/>
         
             <form className='mt-2 flex flex-col gap-2 lg:gap-4 md:justify-start' onSubmit={handleSubmit}>

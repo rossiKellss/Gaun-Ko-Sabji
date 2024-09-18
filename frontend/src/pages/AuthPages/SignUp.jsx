@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/SubComponent/Button/Button";
+import Button from "../../components/SubComponent/Button/Button";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
-import Heading from "../components/SubComponent/HeadingTitle/Heading";
-import { useRegisterUserMutation } from "../api/authApiSlice";
+import Heading from "../../components/SubComponent/HeadingTitle/Heading";
+import { useRegisterUserMutation } from "../../api/authApiSlice";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "../components/Alert";
+import { Alert } from "../../components/Alert";
 
 function SignUp() {
   // initializing register function

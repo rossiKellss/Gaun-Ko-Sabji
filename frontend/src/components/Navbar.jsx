@@ -6,7 +6,7 @@ import { MdClose } from "react-icons/md";
 import Button from "./SubComponent/Button/Button";
 import { FiSearch } from "react-icons/fi";
 import Search from "../pages/Search";
-import SignUp from "../pages/SignUp";
+import SignUp from "../pages/AuthPages/SignUp";
 
 function Navbar() {
   const [openNav, setOpenNav] = useState(false);

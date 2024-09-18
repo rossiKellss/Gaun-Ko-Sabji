@@ -4,13 +4,14 @@ import App from "../App";
 import ProductDetails from "../pages/ProductDetails";
 import Search from "../pages/Search";
 import Aboutus from "../pages/Aboutus";
-import SignUp from "../pages/SignUp";
-import Login from "../pages/Login";
+import SignUp from "../pages/AuthPages/SignUp";
+import Login from "../pages/AuthPages/Login";
 import Admin from "../pages/Admin/Admin";
-import CodeConfirmation from "../pages/CodeConfirmation";
+import CodeConfirmation from "../pages/AuthPages/CodeConfirmation";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
-import ForgotPassword from "../pages/ForgotPassword";
+import ForgotPassword from "../pages/AuthPages/ForgotPassword";
+import ChangePassword from "../pages/AuthPages/ChangePassword";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path:'/forgot-password',
         element:<ForgotPassword/>
+      },
+      {
+        path:'/change-password/:userId',
+        element:<ChangePassword/>
       }
       
     ],
