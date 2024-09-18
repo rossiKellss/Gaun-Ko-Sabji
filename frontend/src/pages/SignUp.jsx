@@ -124,10 +124,10 @@ function SignUp() {
       try {
         const userData = await registerUser(userCred).unwrap();
 
-        console.log(userData);
+        const userId = userData.data._id;
 
         if (userData.success) {
-          navigate("/confirm-user");
+          navigate(`/confirm-user/${userId}`);
         }
       } catch (err) {
         const message = err.data.message;
@@ -155,7 +155,6 @@ function SignUp() {
               onSubmit={handleSubmit}
             >
               <div className="w-full  mb-6  flex gap-2 ">
-                
                 <div className="w-full">
                   <input
                     type="text"
@@ -294,7 +293,7 @@ function SignUp() {
               </div>
 
               <div className="mb-5 ">
-                <Link to={"/login"}>
+                <Link to={"/forgot-password"}>
                   <span className="underline text-sm text-red-600">
                     Forgot password ?
                   </span>
@@ -308,9 +307,10 @@ function SignUp() {
                 }}
               />
               <div className="w-full mt-3 text-sm flex  gap-1 justify-center">
-
-              <p className=" text-gray-500 ">Already have an account ?{" "} </p>
-              <Link to={"/login"} className="text-blue-500 underline">Sign in here.</Link>
+                <p className=" text-gray-500 ">Already have an account ? </p>
+                <Link to={"/login"} className="text-blue-500 underline">
+                  Sign in here.
+                </Link>
               </div>
             </form>
           </div>

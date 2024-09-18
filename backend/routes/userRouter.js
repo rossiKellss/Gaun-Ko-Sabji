@@ -11,7 +11,7 @@ userRouter
 userRouter.route("/signin").post(userControllers.signIn);
 userRouter.route("/confirm-user").post(userControllers.confirmUser);
 userRouter.route("/forgot-password").post(userControllers.forgotPass);
-userRouter.route("/validate-token/:token").get(userControllers.validateToken);
+userRouter.route("/validate-otp").post(userControllers.validateOtp);
 userRouter
   .route("/change-password")
   .post(validate(changePasswordSchema), userControllers.changePassword);

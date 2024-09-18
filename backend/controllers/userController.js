@@ -129,6 +129,7 @@ const userControllers = {
       const user = await Users.findOne({ email });
       if (!user) {
         return res.status(400).json({
+          success:false,
           message: "Email not found",
         });
       }
@@ -140,6 +141,8 @@ const userControllers = {
       await user.save();
       await sendConfirmationCode(code, email);
       return res.status(200).json({
+        success:true,
+        data:user,
         message: "Verification code has been sucessfully sent to your email",
       });
     } catch (err) {
@@ -149,22 +152,23 @@ const userControllers = {
       });
     }
   },
-  validateToken: async (req, res) => {
-    const { token } = req.params;
+  validateOtp: async (req, res) => {
+    const {otp}=req.body;
 
     try {
       const isValid = await Users.findOne({
-        confirmationCode: token,
+        confirmationCode: otp,
         expiresIn: { $gte: Date.now() },
       });
 
       if (!isValid) {
         return res.status(400).json({
           success: false,
+          data:isValid,
           message: "Verification code is not valid or expired",
         });
       }
-      req.token = token;
+      req.otp = otp;
 
       return res.status(200).json({
         success: true,
@@ -177,6 +181,7 @@ const userControllers = {
       });
     }
   },
+
   changePassword: async (req, res) => {
     const token = req.token;
     const { newPassword } = req.body;

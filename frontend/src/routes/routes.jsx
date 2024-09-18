@@ -10,6 +10,7 @@ import Admin from "../pages/Admin/Admin";
 import CodeConfirmation from "../pages/CodeConfirmation";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
+import ForgotPassword from "../pages/ForgotPassword";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,13 +29,21 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/confirm-user",
-        element: <CodeConfirmation />,
+        path: "/confirm-user/:userId",
+        element: <CodeConfirmation action={"confirm-user"}/>,
+      },
+      {
+        path:'/confirm-code/:userId',
+        element:<CodeConfirmation action={"confirm-code"}/>
       },
       {
         path: "/login",
         element: <Login />,
       },
+      {
+        path:'/forgot-password',
+        element:<ForgotPassword/>
+      }
       
     ],
   },

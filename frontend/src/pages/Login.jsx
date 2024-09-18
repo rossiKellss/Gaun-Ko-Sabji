@@ -100,7 +100,7 @@ function Login() {
                 )}
               </div>
               <div className="mb-4 lg:mb-5">
-                <Link to={"/signup"}>
+                <Link to={"/forgot-password"}>
                   <span className="underline text-red-600 text-sm">
                     Forgot password ?
                   </span>

@@ -1,12 +1,16 @@
 import React, { useRef, useState } from "react";
 import Button from "../components/SubComponent/Button/Button";
 import Heading from "../components/SubComponent/HeadingTitle/Heading";
-import { useConfirmUserMutation } from "../api/authApiSlice";
+import { useConfirmUserMutation,useValidateOtpMutation } from "../api/authApiSlice";
 import { Alert } from "../components/Alert";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function CodeConfirmation() {
+export default function CodeConfirmation({action}) {
+  
+ const {userId}=useParams();
   const [confirmUser] = useConfirmUserMutation();
+  const [validateOtp]=useValidateOtpMutation();
   const navigate=useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
@@ -66,14 +70,30 @@ export default function CodeConfirmation() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let res;
     const OTP = otp.join("");
+    
     try {
-      const res = await confirmUser({
-        otp: OTP,
-      }).unwrap();
-      if (res.success){
-        navigate('/');
+      if (action=="confirm-user"){
+        res = await confirmUser({
+          otp: OTP,
+        }).unwrap();
+        if (res.success){
+          navigate('/');
+        }
+
+      }else if(action=="confirm-code"){
+        res=await validateOtp({
+          otp:OTP
+        }).unwrap();
+        if(res.success){
+          navigate('/login');
+        }
+
+  
       }
+       
+     
      
      
     } catch (err) {
