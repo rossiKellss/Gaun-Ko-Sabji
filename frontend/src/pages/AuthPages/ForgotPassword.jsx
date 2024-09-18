@@ -15,6 +15,7 @@ function ForgotPassword() {
         e.preventDefault();
         try{
             const res=await resetPassword(email).unwrap();
+            console.log(res);
             
             if(res.success){
                 const userId=res.data._id

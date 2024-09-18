@@ -57,7 +57,9 @@ const userControllers = {
   signIn: async (req, res) => {
     const { phoneOrEmail, password } = req.body;
     try {
-      const user = await Users.findOne({ $or:[{email:phoneOrEmail},{phone:phoneOrEmail}] });
+      const user = await Users.findOne({
+        $or: [{ email: phoneOrEmail }, { phone: phoneOrEmail }],
+      });
       if (!user) {
         return res.status(400).json({
           success: false,
@@ -90,17 +92,15 @@ const userControllers = {
     }
   },
   confirmUser: async (req, res) => {
-    
-
     try {
-      const  confirmationCode  = req.body.otp;
-      console.log("the confirmation code is",confirmationCode)
+      const confirmationCode = req.body.otp;
+      
       const user = await Users.findOne({
         confirmationCode,
         expiresIn: { $gte: Date.now() },
       });
       console.log(user);
-     
+
       if (!user) {
         return res.status(402).json({
           sucess: false,
@@ -129,7 +129,7 @@ const userControllers = {
       const user = await Users.findOne({ email });
       if (!user) {
         return res.status(400).json({
-          success:false,
+          success: false,
           message: "Email not found",
         });
       }
@@ -141,8 +141,8 @@ const userControllers = {
       await user.save();
       await sendConfirmationCode(code, email);
       return res.status(200).json({
-        success:true,
-        data:user,
+        success: true,
+        data: user,
         message: "Verification code has been sucessfully sent to your email",
       });
     } catch (err) {
@@ -153,7 +153,8 @@ const userControllers = {
     }
   },
   validateOtp: async (req, res) => {
-    const {otp}=req.body;
+    const { otp } = req.body;
+    console.log(otp);
 
     try {
       const isValid = await Users.findOne({
@@ -164,15 +165,15 @@ const userControllers = {
       if (!isValid) {
         return res.status(400).json({
           success: false,
-          data:isValid,
+
           message: "Verification code is not valid or expired",
         });
       }
-      req.otp = otp;
 
       return res.status(200).json({
         success: true,
-        message: "Token is verified",
+        data: isValid,
+        message: "OTP is verified",
       });
     } catch (err) {
       console.log(err);
@@ -183,14 +184,17 @@ const userControllers = {
   },
 
   changePassword: async (req, res) => {
-    const token = req.token;
     const { newPassword } = req.body;
+    const {id}=req.params;
+    console.log(id);
+    console.log(newPassword);
     try {
-      const user = await Users.findOne({ token });
+      const user = await Users.findOne({ _id: id });
+      console.log("the user is", user);
       if (!user) {
         return res.status(400).json({
           success: false,
-          message: "Token invalid or expired",
+          message: "User not found",
         });
       }
       user.password = newPassword;

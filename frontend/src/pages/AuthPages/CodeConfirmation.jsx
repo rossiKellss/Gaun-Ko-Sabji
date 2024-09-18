@@ -83,11 +83,14 @@ export default function CodeConfirmation({action}) {
         }
 
       }else if(action=="confirm-code"){
-        res=await validateOtp({
+        const res=await validateOtp({
           otp:OTP
         }).unwrap();
+        console.log(res)
+        
         if(res.success){
-          navigate('/login');
+          const userId=res.data._id
+          navigate(`/change-password/${userId}`);
         }
 
   
@@ -97,6 +100,7 @@ export default function CodeConfirmation({action}) {
      
      
     } catch (err) {
+      console.log(err);
       
       const message = err.data.message;
       Alert(message, "error");

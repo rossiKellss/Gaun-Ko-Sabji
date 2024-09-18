@@ -13,7 +13,7 @@ userRouter.route("/confirm-user").post(userControllers.confirmUser);
 userRouter.route("/forgot-password").post(userControllers.forgotPass);
 userRouter.route("/validate-otp").post(userControllers.validateOtp);
 userRouter
-  .route("/change-password")
-  .post(validate(changePasswordSchema), userControllers.changePassword);
+  .route("/change-password/:id")
+  .post(validate(changePasswordSchema),userControllers.changePassword);
 
 module.exports = userRouter;
