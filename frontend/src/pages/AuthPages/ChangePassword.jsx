@@ -6,10 +6,13 @@ import { PiEyeBold } from "react-icons/pi";
 import Button from "../../components/SubComponent/Button/Button";
 import { useChangePasswordMutation } from "../../api/authApiSlice";
 import { Alert } from "../../components/Alert";
+import {useNavigate} from 'react-router-dom'
 
 function ChangePassword() {
-  const [changePassword] = useChangePasswordMutation();
+const navigate=useNavigate();
   const { userId } = useParams();
+  const [changePassword] = useChangePasswordMutation();
+  
 
   const [showPassword, setShowPassword] = useState({
     changePassword: false,
@@ -65,6 +68,7 @@ function ChangePassword() {
           const message = res.message;
           
           Alert(message,"success");
+          navigate('/login')
         }
 
       } catch (err) {

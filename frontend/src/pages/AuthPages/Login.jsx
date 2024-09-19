@@ -31,6 +31,8 @@ function Login() {
     try{
       const res=await loginUser(userCred).unwrap();
       if(res.success){
+        const message=res.message;
+        Alert(message,'success','green')
         navigate('/');
         
 

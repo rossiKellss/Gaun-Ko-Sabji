@@ -1,17 +1,19 @@
 import React, { useRef, useState } from "react";
 import Button from "../../components/SubComponent/Button/Button";
 import Heading from "../../components/SubComponent/HeadingTitle/Heading";
-import { useConfirmUserMutation,useValidateOtpMutation } from "../../api/authApiSlice";
+import {
+  useConfirmUserMutation,
+  useValidateOtpMutation,
+} from "../../api/authApiSlice";
 import { Alert } from "../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-export default function CodeConfirmation({action}) {
-  
- const {userId}=useParams();
+export default function CodeConfirmation({ action }) {
+ 
   const [confirmUser] = useConfirmUserMutation();
-  const [validateOtp]=useValidateOtpMutation();
-  const navigate=useNavigate();
+  const [validateOtp] = useValidateOtpMutation();
+  const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
 
@@ -72,36 +74,32 @@ export default function CodeConfirmation({action}) {
     e.preventDefault();
     let res;
     const OTP = otp.join("");
-    
+
     try {
-      if (action=="confirm-user"){
+      if (action == "confirm-user") {
         res = await confirmUser({
           otp: OTP,
         }).unwrap();
-        if (res.success){
-          navigate('/');
+        if (res.success) {
+          const message=res.message;
+          Alert(message,'success')
+          
+          navigate("/");
         }
-
-      }else if(action=="confirm-code"){
-        const res=await validateOtp({
-          otp:OTP
+      } else if (action == "confirm-code") {
+        const res = await validateOtp({
+          otp: OTP,
         }).unwrap();
-        console.log(res)
-        
-        if(res.success){
-          const userId=res.data._id
+        console.log(res);
+
+        if (res.success) {
+          const userId = res.data._id;
           navigate(`/change-password/${userId}`);
         }
-
-  
       }
-       
-     
-     
-     
     } catch (err) {
       console.log(err);
-      
+
       const message = err.data.message;
       Alert(message, "error");
     }

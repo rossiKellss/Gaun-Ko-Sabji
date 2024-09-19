@@ -45,6 +45,7 @@ const userControllers = {
 
       return res.status(200).json({
         success: true,
+        
         data: result,
       });
     } catch (err) {
@@ -82,6 +83,7 @@ const userControllers = {
       const token = signToken(user.email);
       return res.status(200).json({
         success: true,
+        message:"Signed in successfully",
         token,
       });
     } catch (err) {
@@ -115,6 +117,7 @@ const userControllers = {
       const token = signToken(user.email);
       return res.status(200).json({
         success: true,
+        message:"Signed in successfully",
         token,
       });
     } catch (err) {

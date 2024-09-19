@@ -17,6 +17,7 @@ function ForgotPassword() {
             const res=await resetPassword(email).unwrap();
             console.log(res);
             
+            
             if(res.success){
                 const userId=res.data._id
                 navigate(`/confirm-code/${userId}`)
