@@ -45,7 +45,7 @@ const userControllers = {
 
       return res.status(200).json({
         success: true,
-        
+
         data: result,
       });
     } catch (err) {
@@ -81,11 +81,18 @@ const userControllers = {
         });
       }
       const token = signToken(user.email);
-      return res.status(200).json({
-        success: true,
-        message:"Signed in successfully",
-        token,
-      });
+      return res
+        .status(200)
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "None",
+
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+        .json({
+          success: true,
+          message: "Signed in successfully",
+        });
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -96,7 +103,7 @@ const userControllers = {
   confirmUser: async (req, res) => {
     try {
       const confirmationCode = req.body.otp;
-      
+
       const user = await Users.findOne({
         confirmationCode,
         expiresIn: { $gte: Date.now() },
@@ -115,11 +122,17 @@ const userControllers = {
       await user.save();
 
       const token = signToken(user.email);
-      return res.status(200).json({
-        success: true,
-        message:"Signed in successfully",
-        token,
-      });
+      return res
+        .status(200)
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: "None",
+          maxAge: 24 * 60 * 60 * 1000,
+        })
+        .json({
+          success: true,
+          message: "Signed in successfully",
+        });
     } catch (err) {
       return res.status(500).json({
         message: "Internal server occured",
@@ -188,7 +201,7 @@ const userControllers = {
 
   changePassword: async (req, res) => {
     const { newPassword } = req.body;
-    const {id}=req.params;
+    const { id } = req.params;
     console.log(id);
     console.log(newPassword);
     try {

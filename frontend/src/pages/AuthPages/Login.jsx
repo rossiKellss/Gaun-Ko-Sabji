@@ -12,48 +12,42 @@ import { Alert } from "../../components/Alert";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [userCred, setUserCred] = useState({});
-  const [loginUser]=useLoginUserMutation();
-  const navigate=useNavigate();
-  
-  const getUserCred = (e) => {
+  const [loginUser] = useLoginUserMutation();
+  const navigate = useNavigate();
 
-    const name=e.target.name;
-    const value=e.target.value;
+  const getUserCred = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
     setUserCred({
-        ...userCred,
-        [name]:value
-        
-    })
+      ...userCred,
+      [name]: value,
+    });
   };
 
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const res=await loginUser(userCred).unwrap();
-      if(res.success){
-        const message=res.message;
-        Alert(message,'success','green')
-        navigate('/');
-        
-
-      }
       
-
-    }catch(err){
     
-      const message=err.data.message;
-      Alert(message,"error");
-
-
+    try {
+      const res = await loginUser(userCred).unwrap();
+      console.log(res);
+      if (res.success) {
+        const message = res.message;
+        console.log(message);
+        Alert(message, "success", "green");
+        navigate("/");
+      }
+    } catch (err) {
+      const message = err.data.message;
+      Alert(message, "error");
     }
-
-  }
+  };
 
   return (
     <div>
       <Navbar />
       <div className="w-[80%]  firstContentMargin  ">
-        <Heading content={"Login"}  />
+        <Heading content={"Login"} />
         <div className="flex flex-col md:flex-row  md:h-52 lg:h-96  md:gap-2 w-full items-center">
           <div className=" hidden md:block md:w-[50%] h-full ">
             <img
@@ -63,15 +57,20 @@ function Login() {
             />
           </div>
           <div className="right md:w-[50%]">
-            <form action="" className="w-full lg:text-lg" onSubmit={handleSubmit}>
+            <form
+              action=""
+              className="w-full lg:text-lg"
+              onSubmit={handleSubmit}
+            >
               <div className="w-full border-b-2 mb-4 lg:mb-5">
                 <input
                   type="text"
-                 
                   className="w-full outline-none tracking-wide "
                   placeholder="Phone number or Email"
                   name="phoneOrEmail"
-                  onChange={(e)=>{getUserCred(e)}}
+                  onChange={(e) => {
+                    getUserCred(e);
+                  }}
                 />
               </div>
               <div className="w-full border-b-2 flex items-center mb-2">
@@ -80,7 +79,9 @@ function Login() {
                   className="w-full outline-none tracking-wide "
                   placeholder="Enter your password"
                   name="password"
-                  onChange={(e)=>{getUserCred(e)}}
+                  onChange={(e) => {
+                    getUserCred(e);
+                  }}
                 />
 
                 {!showPassword && (
@@ -110,14 +111,15 @@ function Login() {
               </div>
               <Button content={"Continue"} />
               <div className="w-full mt-3 text-sm flex  gap-1 justify-center">
-              <p className=" text-gray-500 ">Already have an account ?{" "} </p>
-              <Link to={"/signup"} className="text-blue-500 underline">Sign up here.</Link>
+                <p className=" text-gray-500 ">Already have an account ? </p>
+                <Link to={"/signup"} className="text-blue-500 underline">
+                  Sign up here.
+                </Link>
               </div>
             </form>
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

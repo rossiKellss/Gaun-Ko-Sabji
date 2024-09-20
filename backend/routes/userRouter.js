@@ -15,5 +15,10 @@ userRouter.route("/validate-otp").post(userControllers.validateOtp);
 userRouter
   .route("/change-password/:id")
   .post(validate(changePasswordSchema),userControllers.changePassword);
+userRouter.route('/test-route').get((req,res)=>{
+  res.cookie("test","testCookie")
+  return res.json({msg:"fuck"})
+
+})
 
 module.exports = userRouter;
