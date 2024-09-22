@@ -1,7 +1,7 @@
 const Users = require("../models/UserModel");
 const generateConfirmationCode = require("../code_generator");
 const sendConfirmationCode = require("../email_service");
-const { signToken, verifyToken } = require("../jwt");
+const { signAccessToken, verifyToken, signRefreshToken } = require("../jwt");
 const bcrypt = require("bcrypt");
 
 const userControllers = {
@@ -55,6 +55,7 @@ const userControllers = {
       });
     }
   },
+
   signIn: async (req, res) => {
     const { phoneOrEmail, password } = req.body;
     try {
@@ -80,15 +81,19 @@ const userControllers = {
           message: "Invalid credentials",
         });
       }
-      const token = signToken(user.email);
+      const accessToken = signAccessToken(user._id);
+      const refreshToken=signRefreshToken(user._id);
+      user.refreshToken=refreshToken;
+      await user.save();
       return res
         .status(200)
-        .cookie("token", token, {
+        .cookie("token", accessToken,
+          {
           httpOnly: true,
-          sameSite: "None",
-
+          // sameSite: "None",
           maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
+          }
+      )
         .json({
           success: true,
           message: "Signed in successfully",
@@ -108,7 +113,7 @@ const userControllers = {
         confirmationCode,
         expiresIn: { $gte: Date.now() },
       });
-      console.log(user);
+      
 
       if (!user) {
         return res.status(402).json({
@@ -116,17 +121,18 @@ const userControllers = {
           message: "Confirmation code invalid or expired",
         });
       }
-
+      const accessToken = signAccessToken(user._id);
+      const refreshToken = signRefreshToken(user._id);
       user.isVerified = true;
       user.confirmationCode = null;
+      user.refreshToken = refreshToken;
       await user.save();
 
-      const token = signToken(user.email);
       return res
         .status(200)
-        .cookie("token", token, {
+        .cookie("token", accessToken, {
           httpOnly: true,
-          sameSite: "None",
+          // sameSite: "None",
           maxAge: 24 * 60 * 60 * 1000,
         })
         .json({
@@ -135,7 +141,7 @@ const userControllers = {
         });
     } catch (err) {
       return res.status(500).json({
-        message: "Internal server occured",
+        message: "Internal server occure",
       });
     }
   },

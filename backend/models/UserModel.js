@@ -35,6 +35,9 @@ const userSchema = new Schema({
   expiresIn: {
     type: Date,
   },
+  refreshToken:{
+    type:String
+  },
 
   dateCreated: {
     type: Date,
