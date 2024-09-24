@@ -6,6 +6,7 @@ const validateJWT = async (req, res, next) => {
     const userToken =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer", "");
+    //   console.log("The token is",userToken);
     if (!userToken) {
       res.status(401).json({
         success: false,
@@ -13,7 +14,9 @@ const validateJWT = async (req, res, next) => {
       });
     }
     const { id } = verifyToken(userToken);
+    
     const user = await Users.findById(id).select("-refreshToken -password");
+    
     if (!user) {
       res.status(401).json({
         success: false,
@@ -21,7 +24,9 @@ const validateJWT = async (req, res, next) => {
       });
     }
     req.user = user;
-    next();
+    
+
+     next();
   } catch (error) {}
 };
 

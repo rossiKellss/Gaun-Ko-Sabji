@@ -31,6 +31,6 @@ userRouter
   .post(validate(changePasswordSchema), userControllers.changePassword);
 
 // secured routes
-userRouter.route('/log-out').get(validateJWT,userControllers.logOut)
+userRouter.route('/log-out').get(validateJWT,userControllers.logOut);
 
 module.exports = userRouter;

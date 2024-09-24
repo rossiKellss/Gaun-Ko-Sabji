@@ -181,7 +181,6 @@ const userControllers = {
   },
   validateOtp: async (req, res) => {
     const { otp } = req.body;
-    console.log(otp);
 
     try {
       const isValid = await Users.findOne({
@@ -196,6 +195,9 @@ const userControllers = {
           message: "Verification code is not valid or expired",
         });
       }
+
+      isValid.confirmationCode = undefined;
+      await isValid.save();
 
       return res.status(200).json({
         success: true,
@@ -237,6 +239,7 @@ const userControllers = {
       });
     }
   },
+
   logOut: async (req, res) => {
     await Users.findByIdAndUpdate(
       req.user._id,
@@ -249,12 +252,71 @@ const userControllers = {
         new: true,
       }
     );
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json({
+        success: true,
+        message: "Logged out succesfully",
+      });
+  },
+  validateRefreshTokens:async(req,res)=>{
+
+    const incomingRefreshToken=req.cookies.refreshToken||req.body.refreshToken;
+    if(!incomingRefreshToken){
+      return res.status(401).json({
+        success:false,
+        message:"Invalid token"
+
+      })
+    }
+    const verifiedToken=verifyToken(incomingRefreshToken,process.env.JWT_REFRESH_SECRET);
+    
+    if(!verifiedToken){
+     return res.status(401).json({
+        success:false,
+        message:"Token not verified"
+
+      })
+
+    }
+    const {id}=verifiedToken;
+    const user=await User.findById(id);
+
+    
+    if(user?.refreshToken!==incomingRefreshToken){
+      res.status(401).json({
+        success:false,
+        message:"Refresh token expired or not valid"
+
+      })
+
+
+    }
+    const newAccessToken=signAccessToken(id);
+    const newRefreshToken=signRefreshToken(id);
+
     const options={
       httpOnly:true,
       secure:true
     }
-    
-    return res.status(200).clearCookie("accessToken",options).clearCookie("refreshToken",options);
+
+    res.status(200)
+    .cookie('accessToken',newAccessToken,options)
+    .cookie('refreshToken',newRefreshToken,options)
+    .json({
+      success:true,
+      accessToken:newAccessToken,
+      refreshToken:newRefreshToken
+    })
+
+
   }
 };
 
