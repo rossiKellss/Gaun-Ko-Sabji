@@ -82,20 +82,21 @@ const userControllers = {
         });
       }
       const accessToken = signAccessToken(user._id);
-      const refreshToken=signRefreshToken(user._id);
-      user.refreshToken=refreshToken;
+      const refreshToken = signRefreshToken(user._id);
+      user.refreshToken = refreshToken;
+      const tokenCred = {
+        httpOnly: true,
+        secure: true,
+      };
       await user.save();
       return res
         .status(200)
-        .cookie("token", accessToken,
-          {
-          httpOnly: true,
-          // sameSite: "None",
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          }
-      )
+        .cookie("accessToken", accessToken, tokenCred)
+        .cookie("refreshToken", refreshToken, tokenCred)
         .json({
           success: true,
+          accessToken,
+          refreshToken,
           message: "Signed in successfully",
         });
     } catch (err) {
@@ -113,7 +114,6 @@ const userControllers = {
         confirmationCode,
         expiresIn: { $gte: Date.now() },
       });
-      
 
       if (!user) {
         return res.status(402).json({
@@ -123,20 +123,25 @@ const userControllers = {
       }
       const accessToken = signAccessToken(user._id);
       const refreshToken = signRefreshToken(user._id);
+
       user.isVerified = true;
       user.confirmationCode = null;
       user.refreshToken = refreshToken;
       await user.save();
 
+      const tokenCred = {
+        httpOnly: true,
+        secure: true,
+      };
+
       return res
         .status(200)
-        .cookie("token", accessToken, {
-          httpOnly: true,
-          // sameSite: "None",
-          maxAge: 24 * 60 * 60 * 1000,
-        })
+        .cookie("accessToken", accessToken, tokenCred)
+        .cookie("refreshToken", refreshToken, tokenCred)
         .json({
           success: true,
+          accessToken,
+          refreshToken,
           message: "Signed in successfully",
         });
     } catch (err) {
@@ -232,6 +237,25 @@ const userControllers = {
       });
     }
   },
+  logOut: async (req, res) => {
+    await Users.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          refreshToken: undefined,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    const options={
+      httpOnly:true,
+      secure:true
+    }
+    
+    return res.status(200).clearCookie("accessToken",options).clearCookie("refreshToken",options);
+  }
 };
 
 module.exports = userControllers;

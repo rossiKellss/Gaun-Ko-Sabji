@@ -1,34 +1,37 @@
-const jwt=require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const signAccessToken=(id,email)=>{
-    try{
-        const token= jwt.sign({
-            id,email
-        },process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
-        return token;
+const signAccessToken = (id) => {
+  try {
+    const token = jwt.sign(
+      {
+        id,
+      },
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: "15m" }
+    );
+    return token;
+  } catch (err) {
+    console.log(err);
+  }
+};
+const signRefreshToken = (id) => {
+  try {
+    const token = jwt.sign(
+      {
+        id,
+      },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+    return token;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    }catch(err){
-        console.log(err)
-    }
-   
+const verifyToken = (token) => {
+  const userId = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  return userId;
+};
 
-
-}
-const signRefreshToken=(id,email)=>{
-    try{
-        const token= jwt.sign({
-            id,email
-        },process.env.JWT_REFRESH_SECRET,{expiresIn:'7d'})
-        return token;
-
-    }catch(err){
-        console.log(err);
-
-    }
-}
-
-const verifyToken=(token)=>{
-
-}
-
-module.exports={signAccessToken,signRefreshToken,verifyToken}
+module.exports = { signAccessToken, signRefreshToken, verifyToken };
