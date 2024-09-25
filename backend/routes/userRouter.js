@@ -33,4 +33,6 @@ userRouter
 // secured routes
 userRouter.route('/log-out').get(validateJWT,userControllers.logOut);
 
+userRouter.route('/refresh-token').post(userControllers.validateRefreshTokens);
+
 module.exports = userRouter;
