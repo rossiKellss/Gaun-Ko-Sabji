@@ -6,7 +6,7 @@ const validateJWT = async (req, res, next) => {
     const userToken =
       req.cookies?.accessToken ||
       req.header("Authorization")?.replace("Bearer", "");
-    //   console.log("The token is",userToken);
+   
     if (!userToken) {
       res.status(401).json({
         success: false,
