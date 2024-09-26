@@ -1,15 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Button from "../../components/SubComponent/Button/Button";
-import Footer from "../../sections/Footer";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { PiEyeBold } from "react-icons/pi";
 import { useState } from "react";
 import Heading from "../../components/SubComponent/HeadingTitle/Heading";
 import { useLoginUserMutation } from "../../api/authApiSlice";
 import { Alert } from "../../components/Alert";
+import { setCredentials } from "../../features/auth/authSlice";
+import { useDispatch,useSelector } from "react-redux";
+
 
 function Login() {
+  // const user=selectCurrentUser();
+  const data=useSelector(state=>state);
+  console.log(data);
+
+  const dispatch=useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [userCred, setUserCred] = useState({});
   const [loginUser] = useLoginUserMutation();
@@ -30,16 +37,24 @@ function Login() {
     
     try {
       const res = await loginUser(userCred).unwrap();
-      console.log(res);
+      
       if (res.success) {
-        const message = res.message;
-        console.log(message);
+        const {userName,email}=res.user;
+       
+
+       
+        const message=res.message
+        const accessToken=res.accessToken;
+        console.log(accessToken);
+        dispatch(setCredentials({user:{userName,email},token:accessToken}));
+        
         Alert(message, "success", "green");
         navigate("/");
       }
     } catch (err) {
-      const message = err.data.message;
-      Alert(message, "error");
+      console.log(err);
+      // const message = err.data.message;
+      // Alert(message, "error");
     }
   };
 

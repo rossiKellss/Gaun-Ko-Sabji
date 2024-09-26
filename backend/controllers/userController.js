@@ -97,6 +97,7 @@ const userControllers = {
           success: true,
           accessToken,
           refreshToken,
+          user,
           message: "Signed in successfully",
         });
     } catch (err) {
