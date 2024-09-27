@@ -30,7 +30,9 @@ const signRefreshToken = (id) => {
 };
 
 const verifyToken = (token) => {
+  console.log("the token is",token);
   const userId = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+ 
   return userId;
 };
 
