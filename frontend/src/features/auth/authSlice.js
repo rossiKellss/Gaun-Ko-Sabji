@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 
 const userCredentials={
     user:null,
@@ -25,5 +26,6 @@ export const authSlice=createSlice({
 export const {setCredentials,logout}=authSlice.actions;
 export default authSlice.reducer;
 
-export const selectCurrentUser=(state)=>state.auth.user
-export const selectCurrentToken=(state)=>state.auth.token
+// export const selectCurrentUser=useSelector((state)=>state)
+
+// export const selectCurrentToken=((state)=>state.auth.token)

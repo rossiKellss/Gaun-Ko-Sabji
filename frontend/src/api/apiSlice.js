@@ -16,6 +16,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
+  
 
   if (result?.error?.originalStatus == 401) {
     const refreshResult = await baseQuery(

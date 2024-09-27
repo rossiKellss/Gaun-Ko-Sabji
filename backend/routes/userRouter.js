@@ -35,4 +35,10 @@ userRouter.route('/log-out').get(validateJWT,userControllers.logOut);
 
 userRouter.route('/refresh-token').post(userControllers.validateRefreshTokens);
 
+userRouter.route('/test-point').get(validateJWT,(req,res)=>{
+  res.status(200).json({
+    message:"test point on run"
+  })
+})
+
 module.exports = userRouter;

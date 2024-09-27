@@ -274,7 +274,7 @@ const userControllers = {
       if(!incomingRefreshToken){
         return res.status(401).json({
           success:false,
-          message:"Invalid token"
+          message:"Token invalid"
   
         })
       }

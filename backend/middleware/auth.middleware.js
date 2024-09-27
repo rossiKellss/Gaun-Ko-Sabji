@@ -8,9 +8,9 @@ const validateJWT = async (req, res, next) => {
       req.header("Authorization")?.replace("Bearer", "");
    
     if (!userToken) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
-        message: "Unauthorized token",
+        message: "Invalid token",
       });
     }
     const { id } = verifyToken(userToken);
@@ -18,7 +18,7 @@ const validateJWT = async (req, res, next) => {
     const user = await Users.findById(id).select("-refreshToken -password");
     
     if (!user) {
-      res.status(401).json({
+     return res.status(401).json({
         success: false,
         message: "Invalid Access Token",
       });

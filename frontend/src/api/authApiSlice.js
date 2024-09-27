@@ -45,6 +45,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { newPassword },
       }),
     }),
+    testEndpoint:builder.query({
+      query:(()=>({
+        url:"auth/test-point"
+      }))
+      
+
+    })
   }),
 });
 
@@ -55,4 +62,5 @@ export const {
   useResetPasswordMutation,
   useValidateOtpMutation,
   useChangePasswordMutation,
+  useTestEndpointQuery
 } = authApiSlice;
