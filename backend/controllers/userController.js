@@ -267,63 +267,63 @@ const userControllers = {
         message: "Logged out succesfully",
       });
   },
-  validateRefreshTokens:async(req,res)=>{
-
+  validateRefreshTokens: async (req, res) => {
     try {
-      const incomingRefreshToken=req.cookies.refreshToken||req.body.refreshToken;
-      if(!incomingRefreshToken){
+      const incomingRefreshToken =
+        req.cookies.refreshToken || req.body.refreshToken;
+      console.log(incomingRefreshToken);
+      if (!incomingRefreshToken) {
+        return res.status(401).json({
+          success: false,
+          message: "Token invalid",
+        });
+      }
+      try {
+        verifyToken(
+          incomingRefreshToken,
+          process.env.JWT_REFRESH_SECRET
+        );
+      } catch (error) {
         return res.status(401).json({
           success:false,
-          message:"Token invalid"
-  
+          message:"Refresh token expired"
+
         })
       }
-      const verifiedToken=verifyToken(incomingRefreshToken,process.env.JWT_REFRESH_SECRET);
+
+      const { id } = verifyToken;
+      const user = await Users.findById(id);
+
       
-      if(!verifiedToken){
-       return res.status(401).json({
-          success:false,
-          message:"Token not verified"
-  
-        })
-  
+      if (user?.refreshToken !== incomingRefreshToken) {
+        return res.status(401).json({
+          success: false,
+          message: "Refresh token expired or not valid",
+        });
       }
-      const {id}=verifiedToken;
-      const user=await Users.findById(id);
-  
-      
-      if(user?.refreshToken!==incomingRefreshToken){
-        res.status(401).json({
-          success:false,
-          message:"Refresh token expired or not valid"
-  
-        })
-  
-  
-      }
-      const newAccessToken=signAccessToken(id);
-      const newRefreshToken=signRefreshToken(id);
-  
-      const options={
-        httpOnly:true,
-        secure:true
-      }
-  
-      res.status(200)
-      .cookie('accessToken',newAccessToken,options)
-      .cookie('refreshToken',newRefreshToken,options)
-      .json({
-        success:true,
-        accessToken:newAccessToken,
-        refreshToken:newRefreshToken
-      })
-  
-  
+      const newAccessToken = signAccessToken(id);
+      const newRefreshToken = signRefreshToken(id);
+      user.refreshToken = newRefreshToken;
+      await user.save();
+
+      const options = {
+        httpOnly: true,
+        secure: true,
+      };
+
+      return res
+        .status(200)
+        .cookie("accessToken", newAccessToken, options)
+        .cookie("refreshToken", newRefreshToken, options)
+        .json({
+          success: true,
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  },
 };
 
 module.exports = userControllers;

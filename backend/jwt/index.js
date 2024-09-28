@@ -7,7 +7,7 @@ const signAccessToken = (id) => {
         id,
       },
       process.env.JWT_ACCESS_SECRET,
-      { expiresIn: "7s" }
+      { expiresIn: "15m" }
     );
     return token;
   } catch (err) {
@@ -30,10 +30,23 @@ const signRefreshToken = (id) => {
 };
 
 const verifyToken = (token) => {
-  console.log("the token is",token);
-  const userId = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  try{
+
+    const userId = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
  
   return userId;
+  }catch(err){
+    
+    
+    if(err.name=="TokenExpiredError"){
+      throw new Error("Token is expired");
+
+    }
+    throw new Error("Invalid Token");
+
+
+  }
+  
 };
 
 module.exports = { signAccessToken, signRefreshToken, verifyToken };

@@ -10,7 +10,7 @@ const Home = () => {
   try{
     // suppose this entry is for cart items
     const res=useTestEndpointQuery();
-    console.log(res);
+    
     // redirect to login here
 
   }catch(err){

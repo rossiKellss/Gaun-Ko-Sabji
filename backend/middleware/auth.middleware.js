@@ -15,13 +15,27 @@ const validateJWT = async (req, res, next) => {
     }
 
     // console.log("The user token is",userToken);
-    const {id} = verifyToken(userToken);
-    if(!id){
-      console.log("token expired");
+    try{
+      verifyToken(userToken);
+
+    }catch(err){
+      console.log(err);
+      if(err.name=="TokenExpiredError"){
+       return res.status(401).json({
+        success:false,
+        message:"Token is expired"
+
+        })
+      }
       return res.status(401).json({
-        message:"Token expired"
+        success:false,
+        message:"Invalid access token"
+
       })
+
     }
+    const {id} = verifyToken(userToken);
+    
     
 
     

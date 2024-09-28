@@ -15,15 +15,19 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions);
-  console.log("base query",result);
+  let result = await baseQuery(args, api, extraOptions);
+  
 
   if (result?.error?.status == 401) {
-    const refreshResult = await baseQuery(
-      "/auth/refresh-token",
+    const refreshResult = await baseQuery({
+      url:"/auth/refresh-token",
+      method:"POST"
+    },
+      
       api,
       extraOptions
     );
+    console.log(refreshResult);
     if (refreshResult?.data) {
       const user = api.getState().auth.user;
 
