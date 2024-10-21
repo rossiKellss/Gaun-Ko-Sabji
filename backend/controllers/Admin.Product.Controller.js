@@ -23,7 +23,7 @@ const productControllers = {
         fileName: filename,
       });
 
-      res.json({ data: result, message: "Item Added Successfully",ok:true });
+      res.json({ data: result, message: "Item Added Successfully", ok: true });
     } catch (err) {
       return res.status(400).json({
         err: err.message,
@@ -33,8 +33,10 @@ const productControllers = {
     }
   },
   getProductList: async (req, res) => {
+    // its for filtering  from the database
+
     const { filter } = req.query;
-    console.log(filter)
+    console.log(filter);
 
     try {
       if (filter == "FBD") {
@@ -51,7 +53,7 @@ const productControllers = {
       } else {
         const products = await Products.find({});
 
-        return res.json({ products });
+        return res.json({ success: true, products });
       }
     } catch (err) {
       return res.status(500).json({
@@ -61,13 +63,10 @@ const productControllers = {
   },
 
   updateProductList: async (req, res) => {
-   
-    
     const { id } = req.params;
-    const filename  = req.file?.filename;
-    
+    const filename = req.file?.filename;
+
     const { ProductName, Category, Price, Description, Quantity } = req.body;
-    
 
     try {
       await Products.findByIdAndUpdate(id, {
@@ -76,12 +75,12 @@ const productControllers = {
         Price,
         Quantity,
         Category,
-        fileName:filename
+        fileName: filename,
       });
 
       return res.status(200).json({
         message: "Product updated successfully",
-        ok:true
+        ok: true,
       });
     } catch (err) {
       return res.status(500).json({
@@ -92,8 +91,6 @@ const productControllers = {
 
   getProductById: async (req, res) => {
     const { id } = req.params;
-   
-   
 
     try {
       const findItem = await Products.findById(id);
@@ -101,7 +98,6 @@ const productControllers = {
       return res.status(200).json({
         products: findItem,
       });
-      
     } catch (err) {
       return res.status(500).json({
         message: "Internal Server Error",
@@ -149,7 +145,7 @@ const productControllers = {
       });
     }
   },
-  
+
   searchProducts: async (req, res) => {
     const name = req.params.id;
     console.log(name);

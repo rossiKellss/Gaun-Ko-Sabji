@@ -4,8 +4,7 @@ import CardsContainer from "../sections/CardsContainer";
 import DailyEssentials from "../sections/DailyEssentials";
 import { useTestEndpointQuery } from "../api/authApiSlice";
 
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+
 const Home = () => {
   try{
     // suppose this entry is for cart items
@@ -19,8 +18,7 @@ const Home = () => {
   }
   
   
-  const ifToken=useSelector(state=>state.auth.token);
-
+  
  
     
  

@@ -57,7 +57,9 @@ const userControllers = {
   },
 
   signIn: async (req, res) => {
+   
     const { phoneOrEmail, password } = req.body;
+    console.log(phoneOrEmail,password)
     try {
       const user = await Users.findOne({
         $or: [{ email: phoneOrEmail }, { phone: phoneOrEmail }],
@@ -107,6 +109,7 @@ const userControllers = {
       });
     }
   },
+
   confirmUser: async (req, res) => {
     try {
       const confirmationCode = req.body.otp;
@@ -124,8 +127,10 @@ const userControllers = {
       }
       const accessToken = signAccessToken(user._id);
       const refreshToken = signRefreshToken(user._id);
+      const role=user.email===process.env.ADMIN_EMAIL?"admin":"user";
 
       user.isVerified = true;
+      user.role=role;
       user.confirmationCode = null;
       user.refreshToken = refreshToken;
       await user.save();
@@ -151,6 +156,7 @@ const userControllers = {
       });
     }
   },
+
   forgotPass: async (req, res) => {
     const { email } = req.body;
     try {
@@ -180,6 +186,7 @@ const userControllers = {
       });
     }
   },
+
   validateOtp: async (req, res) => {
     const { otp } = req.body;
 
@@ -267,6 +274,7 @@ const userControllers = {
         message: "Logged out succesfully",
       });
   },
+
   validateRefreshTokens: async (req, res) => {
     try {
       const incomingRefreshToken =

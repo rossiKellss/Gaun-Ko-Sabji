@@ -76,34 +76,34 @@ export default function CodeConfirmation({ action }) {
     const OTP = otp.join("");
     
 
-    // try {
-    //   if (action == "confirm-user") {
-    //     res = await confirmUser({
-    //       otp: OTP,
-    //     }).unwrap();
-    //     if (res.success) {
-    //       const message=res.message;
-    //       Alert(message,'success')
+    try {
+      if (action == "confirm-user") {
+        res = await confirmUser({
+          otp: OTP,
+        }).unwrap();
+        if (res.success) {
+          const message=res.message;
+          Alert(message,'success')
           
-    //       navigate("/");
-    //     }
-    //   } else if (action == "confirm-code") {
-    //     const res = await validateOtp({
-    //       otp: OTP,
-    //     }).unwrap();
-    //     console.log(res);
+          navigate("/");
+        }
+      } else if (action == "confirm-code") {
+        const res = await validateOtp({
+          otp: OTP,
+        }).unwrap();
+        console.log(res);
 
-    //     if (res.success) {
-    //       const userId = res.data._id;
-    //       navigate(`/change-password/${userId}`);
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.log(err);
+        if (res.success) {
+          const userId = res.data._id;
+          navigate(`/change-password/${userId}`);
+        }
+      }
+    } catch (err) {
+      console.log(err);
 
-    //   const message = err.data.message;
-    //   Alert(message, "error");
-    // }
+      const message = err.data.message;
+      Alert(message, "error");
+    }
   };
 
   return (
