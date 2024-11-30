@@ -4,8 +4,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser=require("cookie-parser");
 const AdminRouter = require("./routes/Admin.router");
-const userRouter = require("./routes/User.Router");
+const userAuthRouter = require("./routes/User.Auth.Router");
 const connectToDb = require("./connection/connection");
+const userProductRouter = require("./routes/User.Product.Router");
 
 const app = express();
 
@@ -33,6 +34,7 @@ if (process.env.NODE_ENV == "development") {
 
 // setting up route middlewares
 app.use("/api/admin", AdminRouter);
-app.use("/api/auth", userRouter);
+app.use("/api/auth", userAuthRouter);
+app.use("/api/user",userProductRouter);
 
 module.exports = app;

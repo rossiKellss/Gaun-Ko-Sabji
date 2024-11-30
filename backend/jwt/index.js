@@ -7,7 +7,7 @@ const signAccessToken = (id) => {
         id,
       },
       process.env.JWT_ACCESS_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "60m" }
     );
     return token;
   } catch (err) {

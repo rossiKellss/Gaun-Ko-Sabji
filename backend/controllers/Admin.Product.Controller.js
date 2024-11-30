@@ -4,9 +4,12 @@ const fs = require("fs");
 
 const productControllers = {
   createProductList: async (req, res) => {
-    const { filename } = req.file;
-    const { ProductName, Category, Description, Price, Quantity } = req.body;
+    const {filename}=req.file
+    const { ProductName, Category, Price, Quantity } = req.body;
     const productExists = await Products.findOne({ ProductName });
+    
+
+    
 
     if (productExists) {
       return res.status(400).json({
@@ -19,11 +22,11 @@ const productControllers = {
         Category,
         Price,
         Quantity,
-        Description,
+        
         fileName: filename,
       });
 
-      res.json({ data: result, message: "Item Added Successfully", ok: true });
+      res.json({ data: result, message: "Item Added Successfully", success: true });
     } catch (err) {
       return res.status(400).json({
         err: err.message,
@@ -64,23 +67,24 @@ const productControllers = {
 
   updateProductList: async (req, res) => {
     const { id } = req.params;
-    const filename = req.file?.filename;
+    console.log("the id is",id);
+    console.log("The fields are",req.body);
 
-    const { ProductName, Category, Price, Description, Quantity } = req.body;
-
+    const { ProductName, Category, Price, Quantity } = req.body;
+    
     try {
       await Products.findByIdAndUpdate(id, {
         ProductName,
-        Description,
         Price,
         Quantity,
         Category,
-        fileName: filename,
+        
       });
+      
 
       return res.status(200).json({
         message: "Product updated successfully",
-        ok: true,
+        success: true,
       });
     } catch (err) {
       return res.status(500).json({
@@ -126,10 +130,10 @@ const productControllers = {
 
   downloadProductList: async (req, res) => {
     const filename = req.params.id;
-    console.log("the filename is", filename);
+    
 
     const imagePath = path.join(__dirname, `../images/${filename}`);
-    console.log("the image path is", imagePath);
+    
 
     try {
       if (fs.existsSync(imagePath)) {
@@ -148,11 +152,11 @@ const productControllers = {
 
   searchProducts: async (req, res) => {
     const name = req.params.id;
-    console.log(name);
+ 
     try {
       const searchedProducts = await Products.find({ ProductName: name });
       if (searchedProducts.length == 0) {
-        return res.status(404).json({
+        return res.status(400).json({
           message: "No items found",
         });
       }
@@ -165,6 +169,7 @@ const productControllers = {
       });
     }
   },
+
   filterProducts: async (req, res) => {
     const { filter } = req.query;
 

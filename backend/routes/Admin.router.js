@@ -16,13 +16,15 @@ AdminRouter.route("/products/:id").get(productControllers.getProductById);
 AdminRouter.post(
   "/products",
   upload.single("Picture"),
+  validateJWT,
+  isAdmin('admin'),
   productControllers.createProductList
 );
 
-AdminRouter.put('/products/:id',upload.single("Picture"),productControllers.updateProductList)
+AdminRouter.put('/products/:id',productControllers.updateProductList)
 
 AdminRouter.route("/products/:id").put(productControllers.updateProductList);
-
+  
 AdminRouter
   .route("/products/:id")
   .delete(productControllers.deleteProductList);

@@ -56,7 +56,7 @@ const adminController={
     },
 
     checkAuthentication:async(req,res)=>{
-        const token=req.cookies.accessToken||req.header("Authorization").replace("Bearer","");
+        const token=req.cookies.accessToken||req.header("Authorization")?.replace("Bearer","");
         try{
 
             verifyToken(token);
