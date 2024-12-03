@@ -44,9 +44,10 @@ const userControllers = {
       }
 
       return res.status(200).json({
+        data:result._id,
         success: true,
 
-        data: result,
+       
       });
     } catch (err) {
       console.log(err);

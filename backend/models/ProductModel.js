@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const { required } = require('../validation/forgotPassSchema');
 
 const productSchema=new mongoose.Schema({
     ProductName:{
@@ -30,6 +31,8 @@ const productSchema=new mongoose.Schema({
         type: String,
        
     },
+
+   
 
    
 

@@ -38,11 +38,19 @@ const userSchema = new Schema({
   refreshToken:{
     type:String
   },
+  products:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:"Products"
+    }
+  ],
+
 
   dateCreated: {
     type: Date,
     default: Date.now,
   },
+  
 });
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

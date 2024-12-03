@@ -1,44 +1,44 @@
-const Products=require('../models/ProductModel');
-const path=require('path');
-const userProductController={
-     getProducts:async(req,res)=>{
-        try{
-            const products=await Products.find({});
-            res.json({success:true,data:products});
+const Products = require("../models/ProductModel");
+const path = require("path");
+const userProductController = {
+  getProducts: async (req, res) => {
+    try {
+      const products = await Products.find({});
+      res.json({ success: true, data: products });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
+  downloadProductImage: async (req, res) => {
+    const filename = req.params.id;
 
-        }
-        catch(err){
-            console.log(err);
+    const imagePath = path.join(__dirname, `../images/${filename}`);
+    console.log(imagePath);
 
-        }
-        
-     },
+    try {
+      if (fs.existsSync(imagePath)) {
+        return res.status(200).sendFile(imagePath);
+      } else {
+        return res.status(404).json({
+          message: "Img not found",
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
+  },
 
-     downloadProductList: async (req, res) => {
-        const filename = req.params.id;
-        
-    
-        const imagePath = path.join(__dirname, `../images/${filename}`);
-        console.log(imagePath);
-        
-    
-        try {
-          if (fs.existsSync(imagePath)) {
-            return res.status(200).sendFile(imagePath);
-          } else {
-            return res.status(404).json({
-              message: "Img not found",
-            });
-          }
-        } catch (err) {
-          return res.status(500).json({
-            message: "Internal Server Error",
-          });
-        }
-      },
+  addProduct: async (req, res) => {
+    console.log(req.body);
+  },
 
+  addCheckOut:async(req,res)=>{
+    console.log(req.body);
 
-}
+  }
+};
 
-module.exports=userProductController;
+module.exports = userProductController;
