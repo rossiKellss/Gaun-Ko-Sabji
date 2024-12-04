@@ -7,6 +7,7 @@ const AdminRouter = require("./routes/Admin.router");
 const userAuthRouter = require("./routes/User.Auth.Router");
 const connectToDb = require("./connection/connection");
 const userProductRouter = require("./routes/User.Product.Router");
+const orderRouter = require("./routes/Order.router");
 
 const app = express();
 
@@ -36,5 +37,6 @@ if (process.env.NODE_ENV == "development") {
 app.use("/api/admin", AdminRouter);
 app.use("/api/auth", userAuthRouter);
 app.use("/api/user",userProductRouter);
+app.use("/api/order",orderRouter);
 
 module.exports = app;
